@@ -1,0 +1,24 @@
+== Game Lookup data update ==
+Project: /home/ramsay/webapp/game-lookup
+Season start year: 2025
+Exports: /home/ramsay/webapp/game-lookup/exports
+Data: /home/ramsay/webapp/game-lookup/data
+Log: /home/ramsay/webapp/game-lookup/logs/update_2025-12-29_002438.log
+
+Scraping months: 2026-01
+→ Scraping 2026-01 -> /home/ramsay/webapp/game-lookup/exports/2026-01.csv
+📄 Fetching schedule: https://lakeshorehockeyleague.net/Groups/1313/Schedule/?Month=1&Year=2026
+🔎 Found 35 game links. Fetching details...
+✅ Wrote 35 games to: /home/ramsay/webapp/game-lookup/exports/2026-01.csv
+
+Combining/deduping/sorting into data/combined.csv ...
+✅ Combined 6 file(s)
+✅ Wrote 135 deduped rows to: /home/ramsay/webapp/game-lookup/data/combined.csv
+
+Converting to data/games.json ...
+📄 Reading: /home/ramsay/webapp/game-lookup/data/combined.csv
+✅ Wrote 135 rows to: /home/ramsay/webapp/game-lookup/data/games.json
+
+✅ Done. Updated files:
+-rw-rw-r-- 1 ramsay ramsay 31052 Dec 29 00:24 /home/ramsay/webapp/game-lookup/data/combined.csv
+-rw-rw-r-- 1 ramsay ramsay 59846 Dec 29 00:24 /home/ramsay/webapp/game-lookup/data/games.json
