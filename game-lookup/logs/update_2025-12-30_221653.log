@@ -1,0 +1,28 @@
+== Game Lookup data update ==
+Project: /Users/syd/Desktop/webapp/game-lookup
+Season start year: 2025
+Exports: /Users/syd/Desktop/webapp/game-lookup/exports
+Data: /Users/syd/Desktop/webapp/game-lookup/data
+Log: /Users/syd/Desktop/webapp/game-lookup/logs/update_2025-12-30_221653.log
+
+Scraping months: 2026-01 2026-02
+→ Scraping 2026-01 -> /Users/syd/Desktop/webapp/game-lookup/exports/2026-01.csv
+📄 Fetching schedule: https://lakeshorehockeyleague.net/Groups/1313/Schedule/?Month=1&Year=2026
+🔎 Found 35 game links. Fetching details...
+✅ Wrote 35 games to: /Users/syd/Desktop/webapp/game-lookup/exports/2026-01.csv
+→ Scraping 2026-02 -> /Users/syd/Desktop/webapp/game-lookup/exports/2026-02.csv
+📄 Fetching schedule: https://lakeshorehockeyleague.net/Groups/1313/Schedule/?Month=2&Year=2026
+🔎 Found 5 game links. Fetching details...
+✅ Wrote 5 games to: /Users/syd/Desktop/webapp/game-lookup/exports/2026-02.csv
+
+Combining/deduping/sorting into data/combined.csv ...
+✅ Combined 2 file(s)
+✅ Wrote 40 deduped rows to: /Users/syd/Desktop/webapp/game-lookup/data/combined.csv
+
+Converting to data/games.json ...
+📄 Reading: /Users/syd/Desktop/webapp/game-lookup/data/combined.csv
+✅ Wrote 40 rows to: /Users/syd/Desktop/webapp/game-lookup/data/games.json
+
+✅ Done. Updated files:
+-rw-r--r--@ 1 syd  staff   8210 Dec 30 22:17 /Users/syd/Desktop/webapp/game-lookup/data/combined.csv
+-rw-r--r--@ 1 syd  staff  16674 Dec 30 22:17 /Users/syd/Desktop/webapp/game-lookup/data/games.json

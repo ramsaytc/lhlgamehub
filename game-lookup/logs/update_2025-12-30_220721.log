@@ -1,0 +1,10 @@
+== Game Lookup data update ==
+Project: /Users/syd/Desktop/webapp/game-lookup
+Season start year: 2025
+Exports: /Users/syd/Desktop/webapp/game-lookup/exports
+Data: /Users/syd/Desktop/webapp/game-lookup/data
+Log: /Users/syd/Desktop/webapp/game-lookup/logs/update_2025-12-30_220721.log
+
+No months provided. Skipping scraping; will combine existing CSVs in exports/.
+
+Combining/deduping/sorting into data/combined.csv ...

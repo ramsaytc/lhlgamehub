@@ -1,0 +1,32 @@
+== Game Lookup data update ==
+Project: /Users/syd/Desktop/webapp/game-lookup
+Season start year: 2025
+Exports: /Users/syd/Desktop/webapp/game-lookup/exports
+Data: /Users/syd/Desktop/webapp/game-lookup/data
+Log: /Users/syd/Desktop/webapp/game-lookup/logs/update_2025-12-30_221442.log
+
+Scraping months: 2025-10 2025-11 2025-12
+→ Scraping 2025-10 -> /Users/syd/Desktop/webapp/game-lookup/exports/2025-10.csv
+📄 Fetching schedule: https://lakeshorehockeyleague.net/Groups/1313/Schedule/?Month=10&Year=2025
+🔎 Found 31 game links. Fetching details...
+✅ Wrote 31 games to: /Users/syd/Desktop/webapp/game-lookup/exports/2025-10.csv
+→ Scraping 2025-11 -> /Users/syd/Desktop/webapp/game-lookup/exports/2025-11.csv
+📄 Fetching schedule: https://lakeshorehockeyleague.net/Groups/1313/Schedule/?Month=11&Year=2025
+🔎 Found 41 game links. Fetching details...
+✅ Wrote 41 games to: /Users/syd/Desktop/webapp/game-lookup/exports/2025-11.csv
+→ Scraping 2025-12 -> /Users/syd/Desktop/webapp/game-lookup/exports/2025-12.csv
+📄 Fetching schedule: https://lakeshorehockeyleague.net/Groups/1313/Schedule/?Month=12&Year=2025
+🔎 Found 23 game links. Fetching details...
+✅ Wrote 23 games to: /Users/syd/Desktop/webapp/game-lookup/exports/2025-12.csv
+
+Combining/deduping/sorting into data/combined.csv ...
+✅ Combined 5 file(s)
+✅ Wrote 135 deduped rows to: /Users/syd/Desktop/webapp/game-lookup/data/combined.csv
+
+Converting to data/games.json ...
+📄 Reading: /Users/syd/Desktop/webapp/game-lookup/data/combined.csv
+✅ Wrote 135 rows to: /Users/syd/Desktop/webapp/game-lookup/data/games.json
+
+✅ Done. Updated files:
+-rw-r--r--@ 1 syd  staff  27977 Dec 30 22:15 /Users/syd/Desktop/webapp/game-lookup/data/combined.csv
+-rw-r--r--@ 1 syd  staff  56771 Dec 30 22:15 /Users/syd/Desktop/webapp/game-lookup/data/games.json

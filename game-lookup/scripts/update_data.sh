@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+shopt -s nullglob
 
 # --- Config ---
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -9,9 +10,14 @@ DATA_DIR="${PROJECT_ROOT}/data"
 # Default season start year for 2025-26 season
 SEASON_START_YEAR="${SEASON_START_YEAR:-2025}"
 
-# Months to scrape (optional)
-# If you pass none, it will SKIP scraping and just combine+convert what’s already in exports/
+# Months you care about (Oct 2025 -> Feb 2026)
+DEFAULT_MONTHS=("2025-10" "2025-11" "2025-12" "2026-01" "2026-02")
+
+# If caller passes months, use those; otherwise use defaults above.
 MONTHS=("$@")
+if [ "${#MONTHS[@]}" -eq 0 ]; then
+  MONTHS=("${DEFAULT_MONTHS[@]}")
+fi
 
 # Where logs go
 LOG_DIR="${PROJECT_ROOT}/logs"
@@ -28,47 +34,123 @@ echo "" | tee -a "${LOG_FILE}"
 
 mkdir -p "${EXPORTS_DIR}" "${DATA_DIR}"
 
-# --- 1) Scrape (optional) ---
-if [ "${#MONTHS[@]}" -gt 0 ]; then
-  echo "Scraping months: ${MONTHS[*]}" | tee -a "${LOG_FILE}"
-  for m in "${MONTHS[@]}"; do
-    # Expect formats: YYYY-MM (e.g. 2025-11) OR "2025-11"
-    if [[ ! "${m}" =~ ^[0-9]{4}-[0-9]{2}$ ]]; then
-      echo "❌ Month '${m}' must be YYYY-MM (example: 2025-11)" | tee -a "${LOG_FILE}"
-      exit 1
-    fi
+# --- Helpers ---
+validate_month() {
+  local m="$1"
+  if [[ ! "${m}" =~ ^[0-9]{4}-[0-9]{2}$ ]]; then
+    echo "❌ Month '${m}' must be YYYY-MM (example: 2025-11)" | tee -a "${LOG_FILE}"
+    exit 1
+  fi
+  local mm="${m:5:2}"
+  if [[ "${mm}" < "01" || "${mm}" > "12" ]]; then
+    echo "❌ Month '${m}' has invalid month value '${mm}'" | tee -a "${LOG_FILE}"
+    exit 1
+  fi
+}
 
-    YEAR="${m:0:4}"
-    MON="${m:5:2}"
-    MON_NO_LEADING_ZERO="$(echo "${MON}" | sed 's/^0*//')"
-    OUT="${EXPORTS_DIR}/${YEAR}-${MON}.csv"
+normalize_csv_ignore_scraped_at() {
+  # Usage: normalize_csv_ignore_scraped_at INPUT.csv OUTPUT.norm.csv
+  python3 - "$1" "$2" <<'PY'
+import csv, sys
 
-    echo "→ Scraping ${YEAR}-${MON} -> ${OUT}" | tee -a "${LOG_FILE}"
+inp, outp = sys.argv[1], sys.argv[2]
 
-    # Adjust the script name/path if yours is different:
-    python3 "${PROJECT_ROOT}/month_to_scrape.py" \
-      --month "${MON_NO_LEADING_ZERO}" \
-      --year "${YEAR}" \
-      --out "${OUT}" | tee -a "${LOG_FILE}"
-  done
+FIELDNAMES = [
+  "scraped_at","date_text","time","away","away_score","home","home_score",
+  "game_code","venue","game_url"
+]
+
+def key(r):
+  return (
+    (r.get("date_text") or "").strip(),
+    (r.get("time") or "").strip(),
+    (r.get("away") or "").strip(),
+    (r.get("home") or "").strip(),
+    (r.get("game_code") or "").strip(),
+    (r.get("venue") or "").strip(),
+    (r.get("game_url") or "").strip(),
+    (r.get("away_score") or "").strip(),
+    (r.get("home_score") or "").strip(),
+  )
+
+with open(inp, newline="", encoding="utf-8") as f:
+  rows = list(csv.DictReader(f))
+
+rows.sort(key=key)
+
+with open(outp, "w", newline="", encoding="utf-8") as f:
+  w = csv.DictWriter(f, fieldnames=FIELDNAMES)
+  w.writeheader()
+  for r in rows:
+    r2 = {k: (r.get(k) or "").strip() for k in FIELDNAMES}
+    r2["scraped_at"] = ""  # ignore scrape timestamp differences
+    w.writerow(r2)
+PY
+}
+
+# --- 1) Scrape months (update-if-changed) ---
+echo "Scraping months (update-if-changed): ${MONTHS[*]}" | tee -a "${LOG_FILE}"
+
+for m in "${MONTHS[@]}"; do
+  validate_month "${m}"
+
+  YEAR="${m:0:4}"
+  MON="${m:5:2}"
+  MON_NO_LEADING_ZERO="$(echo "${MON}" | sed 's/^0*//')"
+
+  OUT="${EXPORTS_DIR}/${YEAR}-${MON}.csv"
+  TMP="${OUT}.tmp"
+  TMP_NORM="${OUT}.tmp.norm"
+  OUT_NORM="${OUT}.norm"
+
+  echo "→ Scraping ${YEAR}-${MON} (temp) ..." | tee -a "${LOG_FILE}"
+
+  python3 "${PROJECT_ROOT}/month_to_scrape.py" \
+    --month "${MON_NO_LEADING_ZERO}" \
+    --year "${YEAR}" \
+    --out "${TMP}" | tee -a "${LOG_FILE}"
+
+  # Normalize temp
+  normalize_csv_ignore_scraped_at "${TMP}" "${TMP_NORM}"
+
+  # Normalize existing (or create an empty baseline with just header)
+  if [ -f "${OUT}" ]; then
+    normalize_csv_ignore_scraped_at "${OUT}" "${OUT_NORM}"
+  else
+    printf "scraped_at,date_text,time,away,away_score,home,home_score,game_code,venue,game_url\n" > "${OUT_NORM}"
+  fi
+
+  # Compare normalized files; update OUT only when real content changed
+  if cmp -s "${TMP_NORM}" "${OUT_NORM}"; then
+    echo "  ✓ No changes for ${YEAR}-${MON}; keeping existing ${OUT}" | tee -a "${LOG_FILE}"
+    rm -f "${TMP}" "${TMP_NORM}" "${OUT_NORM}"
+  else
+    echo "  ★ Changes detected for ${YEAR}-${MON}; updating ${OUT}" | tee -a "${LOG_FILE}"
+    mv -f "${TMP}" "${OUT}"
+    rm -f "${TMP_NORM}" "${OUT_NORM}"
+  fi
+
   echo "" | tee -a "${LOG_FILE}"
-else
-  echo "No months provided. Skipping scraping; will combine existing CSVs in exports/." | tee -a "${LOG_FILE}"
-  echo "" | tee -a "${LOG_FILE}"
-fi
+done
 
 # --- 2) Combine + dedupe + add ISO date + sort ---
 echo "Combining/deduping/sorting into data/combined.csv ..." | tee -a "${LOG_FILE}"
 
+CSV_FILES=("${EXPORTS_DIR}"/*.csv)
+if [ "${#CSV_FILES[@]}" -eq 0 ]; then
+  echo "❌ No CSV files found in ${EXPORTS_DIR}. Nothing to combine." | tee -a "${LOG_FILE}"
+  exit 1
+fi
+
 python3 "${PROJECT_ROOT}/combine_dedupe.py" \
-  "${EXPORTS_DIR}"/*.csv \
+  "${CSV_FILES[@]}" \
   --out "${DATA_DIR}/combined.csv" \
   --season-start-year "${SEASON_START_YEAR}" \
   --sort asc | tee -a "${LOG_FILE}"
 
 echo "" | tee -a "${LOG_FILE}"
 
-# --- 3) Convert to JSON (uses your fixed csv_to_json.mjs that reads data/combined.csv) ---
+# --- 3) Convert to JSON (reads data/combined.csv) ---
 echo "Converting to data/games.json ..." | tee -a "${LOG_FILE}"
 node "${PROJECT_ROOT}/scripts/csv_to_json.mjs" | tee -a "${LOG_FILE}"
 
