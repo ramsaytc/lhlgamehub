@@ -1,0 +1,61 @@
+name: Update game-lookup data
+
+on:
+  schedule:
+    # Daily at 10:00 UTC (edit if you want)
+    - cron: "0 10 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-game-lookup
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python deps
+        run: pip install -r requirements.txt
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Node deps (game-lookup)
+        working-directory: game-lookup
+        run: npm ci
+
+      - name: Run update script (Oct 2025 -> Feb 2026)
+        working-directory: game-lookup
+        run: |
+          chmod +x ./scripts/update_data.sh
+          ./scripts/update_data.sh
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git add -A
+          git commit -m "Automated game-lookup data update ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+          git push
