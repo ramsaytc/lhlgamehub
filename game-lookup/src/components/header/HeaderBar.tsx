@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Laptop, Menu, Moon, Sun } from "lucide-react";
+import { Laptop, Menu, Moon, Sunrise, Sun } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -47,15 +47,22 @@ function themeLabel(pref: ThemePref) {
   return "Light";
 }
 
-function themeIcon(pref: ThemePref) {
+function themeIconDesktop(pref: ThemePref) {
   if (pref === "system") return Laptop;
+  if (pref === "dark") return Moon;
+  return Sun;
+}
+
+function themeIconMobile(pref: ThemePref) {
+  if (pref === "system") return Sunrise;
   if (pref === "dark") return Moon;
   return Sun;
 }
 
 export function HeaderBar() {
   const [themePref, setThemePref] = React.useState<ThemePref>("system");
-  const ThemeIcon = themeIcon(themePref);
+  const DesktopThemeIcon = themeIconDesktop(themePref);
+  const MobileThemeIcon = themeIconMobile(themePref);
 
   React.useEffect(() => {
     const stored = window.localStorage.getItem("theme");
@@ -93,7 +100,10 @@ export function HeaderBar() {
     <div className="sticky top-0 z-40 border-b bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/50">
       <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-2">
         <div className="flex flex-1 flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em]">
-          <span className="truncate text-[12px]">Lakeshore HL • U14 AA Game Hub</span>
+          <span className="truncate text-[12px]">
+            <span className="hidden sm:inline">Lakeshore HL • U14 AA Game Hub</span>
+            <span className="inline sm:hidden">LHL • U14 AA</span>
+          </span>
           <nav className="hidden md:flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
             <a className="transition-colors hover:text-foreground" href="/">
               GAME SCORES
@@ -104,34 +114,23 @@ export function HeaderBar() {
           </nav>
         </div>
         <div className="flex items-center gap-3">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="mr-2 flex h-9 w-9 items-center justify-center rounded-full border border-muted/40 bg-background/60 p-0 text-muted-foreground hover:text-foreground md:hidden"
-              >
-                <Menu className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-36 space-y-1">
-              <DropdownMenuLabel>Navigate</DropdownMenuLabel>
-              <DropdownMenuItem asChild>
-                <a href="/">Game Scores</a>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <a href="/standings">Standings</a>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2">
-                <ThemeIcon className="h-4 w-4" />
-                {themeLabel(themePref)}
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex h-9 rounded-full border border-muted/40 bg-background/60 p-0 text-muted-foreground hover:text-foreground"
+                aria-label="Toggle theme"
+              >
+                <span className="hidden items-center gap-2 px-3 md:flex">
+                  <DesktopThemeIcon className="h-4 w-4" />
+                  {themeLabel(themePref)}
+                </span>
+                <span className="flex md:hidden items-center justify-center h-9 w-9">
+                  <MobileThemeIcon className="h-4 w-4" />
+                </span>
               </Button>
             </DropdownMenuTrigger>
-
             <DropdownMenuContent align="end" className="w-44">
               <DropdownMenuLabel>Theme</DropdownMenuLabel>
               <DropdownMenuSeparator />
@@ -159,6 +158,26 @@ export function HeaderBar() {
                   Dark
                 </DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-muted/40 bg-background/60 p-0 text-muted-foreground hover:text-foreground md:hidden"
+              >
+                <Menu className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-36 space-y-1">
+              <DropdownMenuLabel>Navigate</DropdownMenuLabel>
+              <DropdownMenuItem asChild>
+                <a href="/">Game Scores</a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a href="/standings">Standings</a>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
