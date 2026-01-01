@@ -112,10 +112,7 @@ export default async function StandingsPage() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-muted/40 to-background">
       <div className="mx-auto max-w-5xl px-4 py-10">
-        <header className="mb-6 flex flex-col gap-2">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-            Lakeshore HL • U14 AA
-          </p>
+        <header className="mb-8 flex flex-col gap-2">
           <h1 className="text-4xl font-bold tracking-tight">League Standings</h1>
           <p className="max-w-2xl text-sm text-muted-foreground">
             Sorted by points, these standings give you the clearest view of the current
@@ -124,24 +121,12 @@ export default async function StandingsPage() {
         </header>
 
         <Card className="border-muted/60 shadow-lg shadow-black/5">
-          <CardHeader className="pb-3 pt-4 sm:pt-3">
-            <div className="flex justify-between">
-              <span></span>
-              <div className="flex items-center gap-2">
-                <Badge variant="secondary" className="text-xs uppercase tracking-widest">
-                  Last updated
-                </Badge>
-                <span className="text-xs text-muted-foreground">
-                  {updatedAt ? new Date(updatedAt).toLocaleString() : "Awaiting data"}
-                </span>
-              </div>
-            </div>
-          </CardHeader>
+          <CardHeader className="pb-3 pt-4 sm:pt-3" />
 
           <CardContent className="space-y-4 pt-0">
-            <div className="overflow-x-auto rounded-xl border border-muted/60">
+            <div className="overflow-x-auto rounded-xl border border-muted/60 bg-background/70 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
               <table className="w-full divide-y divide-muted/40 text-sm">
-                <thead className="sticky top-0 bg-gradient-to-r from-muted/30 via-muted/20 to-muted/0">
+                <thead className="sticky top-0 bg-muted/80 text-muted-foreground shadow-[inset_0_-1px_0_rgba(15,23,42,0.35)]">
                   <tr className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
                     <th className="p-3 text-left font-semibold">Team</th>
                     <th className="p-3 text-right">GP</th>
@@ -159,7 +144,9 @@ export default async function StandingsPage() {
                   {standings.map((row, idx) => (
                     <tr
                       key={`${row.team}-${row.scraped_at}-${idx}`}
-                      className={idx % 2 ? "bg-muted/5" : undefined}
+                      className={`border-b border-muted/30 ${
+                        idx % 2 ? "bg-muted/10" : "bg-muted/5"
+                      } hover:bg-muted/20 transition-colors`}
                     >
                       <td className="max-w-[220px] px-3 py-2">
                         <div className="flex items-center gap-3">
@@ -185,19 +172,27 @@ export default async function StandingsPage() {
                       <td className="px-3 py-2 text-right tabular-nums">{row.strk || "—"}</td>
                     </tr>
                   ))}
-                  {standings.length === 0 ? (
-                    <tr>
-                      <td colSpan={10} className="p-6 text-center text-sm text-muted-foreground">
-                        Standings are being generated. Run the scraper to populate them.
-                      </td>
-                    </tr>
-                  ) : null}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+                    {standings.length === 0 ? (
+                      <tr>
+                        <td colSpan={10} className="p-6 text-center text-sm text-muted-foreground">
+                          Standings are being generated. Run the scraper to populate them.
+                        </td>
+                      </tr>
+                    ) : null}
+                  </tbody>
+                </table>
+              </div>
+              <div className="flex justify-end gap-2 text-xs text-muted-foreground items-center">
+                <Badge variant="secondary" className="text-xs uppercase tracking-widest">
+                  Last updated
+                </Badge>
+                <span>
+                  {updatedAt ? new Date(updatedAt).toLocaleString() : "Awaiting data"}
+                </span>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
     </main>
   );
 }

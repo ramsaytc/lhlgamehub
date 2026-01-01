@@ -360,29 +360,20 @@ export default function Home() {
     );
   }
 
-  const statsText = query.trim()
-    ? baseGames.length > 0
-      ? `${baseGames.length} games for "${query.trim()}"`
-      : `No games found for "${query.trim()}"`
-    : `Browsing: next ${DEFAULT_UPCOMING_DAYS} days`;
-
   return (
     <main className="min-h-screen bg-gradient-to-b from-muted/40 to-background">
       <div className="mx-auto max-w-5xl px-4 py-10">
-        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-muted-foreground">
-            Lakeshore HL • U14 AA
-          </p>
-        <header className="mb-8 flex flex-col gap-3"><h1 className="text-4xl font-bold tracking-tight">Game Scores</h1>
-          <p className="max-w-2xl text-muted-foreground">
+        <header className="mb-8 flex flex-col gap-2">
+          <h1 className="text-4xl font-bold tracking-tight">Game Scores</h1>
+          <p className="max-w-2xl text-sm text-muted-foreground">
             Search for a team, or browse upcoming games by default.
           </p>
         </header>
 
         <Card className="border-muted/60 shadow-lg shadow-black/5">
           <CardHeader className="pb-3">
-            <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-end">
               <CardTitle className="text-lg">Search</CardTitle>
-              <div className="text-sm text-muted-foreground">{statsText}</div>
             </div>
           </CardHeader>
 
