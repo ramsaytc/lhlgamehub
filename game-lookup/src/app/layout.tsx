@@ -20,14 +20,14 @@ export const metadata: Metadata = {
   description: "League schedule and game results",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const themeCookie =
-    cookieStore?.get?.("theme")?.value ?? cookieStore?.["theme"] ?? undefined;
+    cookieStore.get("theme")?.value ?? cookieStore["theme"] ?? undefined;
   const forceDark = themeCookie === "dark";
 
   return (
