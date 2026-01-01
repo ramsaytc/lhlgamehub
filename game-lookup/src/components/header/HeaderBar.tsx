@@ -115,6 +115,7 @@ export function HeaderBar() {
         </div>
         <div className="flex items-center gap-3">
           <DropdownMenu modal={false}>
+            <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
                 size="sm"
