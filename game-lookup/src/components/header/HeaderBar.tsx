@@ -26,6 +26,20 @@ function applyTheme(pref: ThemePref) {
   root.classList.toggle("dark", dark);
 }
 
+function resolvedTheme(pref: ThemePref): "dark" | "light" {
+  return pref === "dark"
+    ? "dark"
+    : pref === "light"
+    ? "light"
+    : systemIsDark()
+    ? "dark"
+    : "light";
+}
+
+function setThemeCookie(value: "dark" | "light") {
+  document.cookie = `theme=${value}; path=/; max-age=31536000; samesite=lax`;
+}
+
 function themeLabel(pref: ThemePref) {
   if (pref === "system") return "System ";
   if (pref === "dark") return "Dark";
@@ -49,7 +63,9 @@ export function HeaderBar() {
         ? (stored as ThemePref)
         : "system";
 
+    const resolved = resolvedTheme(initial);
     setThemePref(initial);
+    setThemeCookie(resolved);
     applyTheme(initial);
 
     const mql = window.matchMedia?.("(prefers-color-scheme: dark)");
@@ -101,12 +117,13 @@ export function HeaderBar() {
 
             <DropdownMenuRadioGroup
               value={themePref}
-              onValueChange={(v) => {
-                const next = v as ThemePref;
-                setThemePref(next);
-                window.localStorage.setItem("theme", next);
-                applyTheme(next);
-              }}
+            onValueChange={(v) => {
+              const next = v as ThemePref;
+              setThemePref(next);
+              window.localStorage.setItem("theme", next);
+              setThemeCookie(resolvedTheme(next));
+              applyTheme(next);
+            }}
             >
               <DropdownMenuRadioItem value="system" className="gap-2">
                 <Laptop className="h-4 w-4" />

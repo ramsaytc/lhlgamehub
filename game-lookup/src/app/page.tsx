@@ -16,9 +16,6 @@ import {
   CommandList,
 } from "@/components/ui/command";
 
-import { HeaderBar } from "@/components/header/HeaderBar";
-import { useSearchParams } from "next/navigation";
-
 
 
 /* -------------------- Team colours (dots only) -------------------- */
@@ -136,9 +133,6 @@ export default function Home() {
   const [games, setGames] = React.useState<Game[]>([]);
   const [loadingGames, setLoadingGames] = React.useState(false);
 
-  const searchParams = useSearchParams();
-  const teamParam = searchParams.get("team")?.trim();
-
   const [view, setView] = React.useState<"all" | "played" | "upcoming">(
     "upcoming"
   );
@@ -215,11 +209,14 @@ export default function Home() {
   }
 
   React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const teamParam = params.get("team")?.trim();
     if (!teamParam) return;
     setQuery(teamParam);
     search(teamParam);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [teamParam]);
+  }, [search]);
 
   const suggestions = React.useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -366,8 +363,10 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-muted/40 to-background">
-      <HeaderBar />
       <div className="mx-auto max-w-5xl px-4 py-10">
+        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+            Lakeshore HL • U14 AA
+          </p>
         <header className="mb-8 flex flex-col gap-3"><h1 className="text-4xl font-bold tracking-tight">Game Scores</h1>
           <p className="max-w-2xl text-muted-foreground">
             Search for a team, or browse upcoming games by default.

@@ -3,8 +3,6 @@ import path from "path";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ClientOnly } from "@/components/client-only/ClientOnly";
-import { HeaderBar } from "@/components/header/HeaderBar";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -109,9 +107,6 @@ export default async function StandingsPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-muted/40 to-background">
-      <ClientOnly>
-        <HeaderBar />
-      </ClientOnly>
       <div className="mx-auto max-w-5xl px-4 py-10">
         <header className="mb-6 flex flex-col gap-2">
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-muted-foreground">
@@ -142,7 +137,7 @@ export default async function StandingsPage() {
           <CardContent className="space-y-4 pt-0">
             <div className="overflow-x-auto rounded-xl border border-muted/60">
               <table className="w-full divide-y divide-muted/40 text-sm">
-                <thead className="bg-gradient-to-r from-muted/30 via-muted/20 to-muted/0">
+                <thead className="sticky top-0 bg-gradient-to-r from-muted/30 via-muted/20 to-muted/0">
                   <tr className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
                     <th className="p-3 text-left font-semibold">Team</th>
                     <th className="p-3 text-right">GP</th>
