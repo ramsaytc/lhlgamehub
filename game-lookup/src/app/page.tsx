@@ -308,7 +308,12 @@ export default function Home() {
       ? "upcoming games"
       : "all games";
 
-  const sortDirectionText = sortNewestFirst ? "newest to oldest" : "oldest to newest";
+  const allowSorting = view !== "upcoming";
+  const sortDirectionText = allowSorting
+    ? sortNewestFirst
+      ? "newest to oldest"
+      : "oldest to newest"
+    : "oldest to newest";
   const toggleLabel = sortNewestFirst ? "Show oldest first" : "Show newest first";
 
   function TeamLabel({
@@ -488,7 +493,7 @@ export default function Home() {
         </Card>
 
         <div className="mt-6">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <Tabs value={view} onValueChange={(v) => setView(v as any)}>
               <TabsList className="rounded-xl">
                 <TabsTrigger value="upcoming">Upcoming ({upcomingGames.length})</TabsTrigger>
@@ -496,15 +501,16 @@ export default function Home() {
                 <TabsTrigger value="all">All ({baseGames.length})</TabsTrigger>
               </TabsList>
             </Tabs>
-            <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
-              <span>Showing {viewLabel} {sortDirectionText}.</span>
-              <button
-                type="button"
-                onClick={() => setSortNewestFirst((prev) => !prev)}
-                className="rounded-full border border-border/60 bg-muted/40 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground"
-              >
-                {toggleLabel}
-              </button>
+            <div className="text-xs text-muted-foreground">
+              {allowSorting && (
+                <button
+                  type="button"
+                  onClick={() => setSortNewestFirst((prev) => !prev)}
+                  className="rounded-full border border-border/60 bg-muted/40 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground"
+                >
+                  {toggleLabel}
+                </button>
+              )}
             </div>
           </div>
         </div>

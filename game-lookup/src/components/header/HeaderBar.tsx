@@ -1,12 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { Laptop, Moon, Sun } from "lucide-react";
+import { Laptop, Menu, Moon, Sun } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
@@ -90,10 +91,10 @@ export function HeaderBar() {
 
   return (
     <div className="sticky top-0 z-40 border-b bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/50">
-      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
-        <div className="flex items-center gap-4 text-sm font-medium uppercase">
-          <span className="whitespace-nowrap">Lakeshore HL • U14 AA Game Hub</span>
-          <nav className="flex items-center gap-3 text-xs font-semibold uppercase text-muted-foreground">
+      <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-2">
+        <div className="flex flex-1 flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em]">
+          <span className="truncate text-[12px]">Lakeshore HL • U14 AA Game Hub</span>
+          <nav className="hidden md:flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
             <a className="transition-colors hover:text-foreground" href="/">
               GAME SCORES
             </a>
@@ -102,44 +103,65 @@ export function HeaderBar() {
             </a>
           </nav>
         </div>
+        <div className="flex items-center gap-3">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="mr-2 flex h-9 w-9 items-center justify-center rounded-full border border-muted/40 bg-background/60 p-0 text-muted-foreground hover:text-foreground md:hidden"
+              >
+                <Menu className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-36 space-y-1">
+              <DropdownMenuLabel>Navigate</DropdownMenuLabel>
+              <DropdownMenuItem asChild>
+                <a href="/">Game Scores</a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a href="/standings">Standings</a>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DropdownMenu modal={false}>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="gap-2">
+                <ThemeIcon className="h-4 w-4" />
+                {themeLabel(themePref)}
+              </Button>
+            </DropdownMenuTrigger>
 
-        <DropdownMenu modal={false}>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="gap-2">
-              <ThemeIcon className="h-4 w-4" />
-              {themeLabel(themePref)}
-            </Button>
-          </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-44">
+              <DropdownMenuLabel>Theme</DropdownMenuLabel>
+              <DropdownMenuSeparator />
 
-          <DropdownMenuContent align="end" className="w-44">
-            <DropdownMenuLabel>Theme</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-
-            <DropdownMenuRadioGroup
-              value={themePref}
-            onValueChange={(v) => {
-              const next = v as ThemePref;
-              setThemePref(next);
-              window.localStorage.setItem("theme", next);
-              setThemeCookie(resolvedTheme(next));
-              applyTheme(next);
-            }}
-            >
-              <DropdownMenuRadioItem value="system" className="gap-2">
-                <Laptop className="h-4 w-4" />
-                System
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="light" className="gap-2">
-                <Sun className="h-4 w-4" />
-                Light
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="dark" className="gap-2">
-                <Moon className="h-4 w-4" />
-                Dark
-              </DropdownMenuRadioItem>
-            </DropdownMenuRadioGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+              <DropdownMenuRadioGroup
+                value={themePref}
+                onValueChange={(v) => {
+                  const next = v as ThemePref;
+                  setThemePref(next);
+                  window.localStorage.setItem("theme", next);
+                  setThemeCookie(resolvedTheme(next));
+                  applyTheme(next);
+                }}
+              >
+                <DropdownMenuRadioItem value="system" className="gap-2">
+                  <Laptop className="h-4 w-4" />
+                  System
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="light" className="gap-2">
+                  <Sun className="h-4 w-4" />
+                  Light
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="dark" className="gap-2">
+                  <Moon className="h-4 w-4" />
+                  Dark
+                </DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
     </div>
   );
