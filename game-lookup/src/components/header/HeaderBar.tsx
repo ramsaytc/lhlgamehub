@@ -115,7 +115,6 @@ export function HeaderBar() {
         </div>
         <div className="flex items-center gap-3">
           <DropdownMenu modal={false}>
-            <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
                 size="sm"
@@ -132,7 +131,6 @@ export function HeaderBar() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-44">
-              <DropdownMenuLabel>Theme</DropdownMenuLabel>
               <DropdownMenuSeparator />
 
               <DropdownMenuRadioGroup
@@ -171,7 +169,6 @@ export function HeaderBar() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-36 space-y-1">
-              <DropdownMenuLabel>Navigate</DropdownMenuLabel>
               <DropdownMenuItem asChild>
                 <a href="/">Game Scores</a>
               </DropdownMenuItem>
