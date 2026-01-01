@@ -33,14 +33,18 @@ function teamSlug(team: string) {
 function TeamLogo({ team }: { team: string }) {
   const slug = teamSlug(team);
   return (
-    <Image
-      src={`/logos/${slug}.svg`}
-      alt={`${team} logo`}
-      width={36}
-      height={36}
-      className="h-9 w-9 rounded-full border object-cover"
+    <div
+      className="relative h-9 w-9 flex-shrink-0 overflow-hidden rounded-full border"
       style={{ borderColor: teamColor(team) }}
-    />
+    >
+      <Image
+        src={`/logos/${slug}.svg`}
+        alt={`${team} logo`}
+        fill
+        sizes="36px"
+        className="object-cover"
+      />
+    </div>
   );
 }
 
@@ -158,14 +162,16 @@ export default async function StandingsPage() {
                       className={idx % 2 ? "bg-muted/5" : undefined}
                     >
                       <td className="max-w-[220px] px-3 py-2">
-                        <div className="flex items-center gap-3 text-sm">
+                        <div className="flex items-center gap-3">
                           <TeamLogo team={row.team} />
-                          <Link
-                            className="font-semibold text-foreground"
-                            href={`/?team=${encodeURIComponent(row.team)}`}
-                          >
-                            {row.team}
-                          </Link>
+                          <div className="flex max-w-[140px] flex-col text-left leading-tight">
+                            <Link
+                              className="font-semibold text-foreground"
+                              href={`/?team=${encodeURIComponent(row.team)}`}
+                            >
+                              {row.team}
+                            </Link>
+                          </div>
                         </div>
                       </td>
                       <td className="px-3 py-2 text-right font-medium tabular-nums">{row.gp}</td>
