@@ -13,6 +13,10 @@ SEASON_START_YEAR="${SEASON_START_YEAR:-2025}"
 # Months you care about (Oct 2025 -> Feb 2026)
 DEFAULT_MONTHS=("2025-10" "2025-11" "2025-12" "2026-01" "2026-02")
 
+# Standings scrape config
+STANDINGS_URL="${STANDINGS_URL:-https://lakeshorehockeyleague.net/Rounds/30700/2025-2026_U14_AA_Regular_Season/}"
+STANDINGS_OUT="${EXPORTS_DIR}/2025-2026_u14aa_standings.csv"
+
 # If caller passes months, use those; otherwise use defaults above.
 MONTHS=("$@")
 if [ "${#MONTHS[@]}" -eq 0 ]; then
@@ -76,6 +80,40 @@ def key(r):
 with open(inp, newline="", encoding="utf-8") as f:
   rows = list(csv.DictReader(f))
 
+  rows.sort(key=key)
+
+  with open(outp, "w", newline="", encoding="utf-8") as f:
+    w = csv.DictWriter(f, fieldnames=FIELDNAMES)
+    w.writeheader()
+    for r in rows:
+      r2 = {k: (r.get(k) or "").strip() for k in FIELDNAMES}
+      r2["scraped_at"] = ""  # ignore scrape timestamp differences
+      w.writerow(r2)
+PY
+}
+
+normalize_standings_csv() {
+  # Usage: normalize_standings_csv INPUT.csv OUTPUT.norm.csv
+  python3 - "$1" "$2" <<'PY'
+import csv, sys
+
+inp, outp = sys.argv[1], sys.argv[2]
+
+FIELDNAMES = [
+  "scraped_at", "team", "gp", "w", "l", "t", "pts",
+  "w_pct", "gf", "ga", "diff", "gf_pct", "l10", "strk"
+]
+
+def key(r):
+  return (
+    (r.get("team") or "").strip().lower(),
+    (r.get("gp") or "").strip(),
+    (r.get("w") or "").strip(),
+  )
+
+with open(inp, newline="", encoding="utf-8") as f:
+  rows = list(csv.DictReader(f))
+
 rows.sort(key=key)
 
 with open(outp, "w", newline="", encoding="utf-8") as f:
@@ -83,7 +121,7 @@ with open(outp, "w", newline="", encoding="utf-8") as f:
   w.writeheader()
   for r in rows:
     r2 = {k: (r.get(k) or "").strip() for k in FIELDNAMES}
-    r2["scraped_at"] = ""  # ignore scrape timestamp differences
+    r2["scraped_at"] = ""
     w.writerow(r2)
 PY
 }
@@ -132,6 +170,35 @@ for m in "${MONTHS[@]}"; do
 
   echo "" | tee -a "${LOG_FILE}"
 done
+
+# --- 1b) Scrape standings (update-if-changed) ---
+echo "Scraping standings table ..." | tee -a "${LOG_FILE}"
+STANDINGS_TMP="${STANDINGS_OUT}.tmp"
+STANDINGS_TMP_NORM="${STANDINGS_OUT}.tmp.norm"
+STANDINGS_OUT_NORM="${STANDINGS_OUT}.norm"
+
+python3 "${PROJECT_ROOT}/standings_to_scrape.py" \
+  --url "${STANDINGS_URL}" \
+  "${STANDINGS_TMP}" | tee -a "${LOG_FILE}"
+
+normalize_standings_csv "${STANDINGS_TMP}" "${STANDINGS_TMP_NORM}"
+
+if [ -f "${STANDINGS_OUT}" ]; then
+  normalize_standings_csv "${STANDINGS_OUT}" "${STANDINGS_OUT_NORM}"
+else
+  printf "scraped_at,team,gp,w,l,t,pts,w_pct,gf,ga,diff,gf_pct,l10,strk\n" > "${STANDINGS_OUT_NORM}"
+fi
+
+if cmp -s "${STANDINGS_TMP_NORM}" "${STANDINGS_OUT_NORM}"; then
+  echo "  ✓ No changes for standings; keeping existing ${STANDINGS_OUT}" | tee -a "${LOG_FILE}"
+  rm -f "${STANDINGS_TMP}" "${STANDINGS_TMP_NORM}" "${STANDINGS_OUT_NORM}"
+else
+  echo "  ★ Standings changed; updating ${STANDINGS_OUT}" | tee -a "${LOG_FILE}"
+  mv -f "${STANDINGS_TMP}" "${STANDINGS_OUT}"
+  rm -f "${STANDINGS_TMP_NORM}" "${STANDINGS_OUT_NORM}"
+fi
+
+echo "" | tee -a "${LOG_FILE}"
 
 # --- 2) Combine + dedupe + add ISO date + sort ---
 echo "Combining/deduping/sorting into data/combined.csv ..." | tee -a "${LOG_FILE}"

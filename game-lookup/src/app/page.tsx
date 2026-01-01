@@ -1,16 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  CalendarDays,
-  Laptop,
-  MapPin,
-  Moon,
-  Search,
-  Sun,
-  Trophy,
-  X,
-} from "lucide-react";
+import { CalendarDays, MapPin, Search, Trophy, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,15 +16,8 @@ import {
   CommandList,
 } from "@/components/ui/command";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { HeaderBar } from "@/components/header/HeaderBar";
+import { useSearchParams } from "next/navigation";
 
 
 
@@ -112,32 +96,6 @@ function HighlightMatch({ label, query }: { label: string; query: string }) {
   );
 }
 
-/** -------- Theme (System/Light/Dark) -------- */
-type ThemePref = "system" | "light" | "dark";
-
-function systemIsDark() {
-  return window.matchMedia?.("(prefers-color-scheme: dark)")?.matches ?? false;
-}
-
-function applyTheme(pref: ThemePref) {
-  const root = document.documentElement;
-  const dark =
-    pref === "dark" ? true : pref === "light" ? false : systemIsDark();
-  root.classList.toggle("dark", dark);
-}
-
-function themeLabel(pref: ThemePref) {
-  if (pref === "system") return "System";
-  if (pref === "dark") return "Dark";
-  return "Light";
-}
-
-function themeIcon(pref: ThemePref) {
-  if (pref === "system") return Laptop;
-  if (pref === "dark") return Moon;
-  return Sun;
-}
-
 /** -------- Default browse behavior -------- */
 const DEFAULT_UPCOMING_DAYS = 14;
 
@@ -165,37 +123,6 @@ function withinNextDays(date: Date, days: number) {
 }
 
 export default function Home() {
-  const [themePref, setThemePref] = React.useState<ThemePref>("system");
-
-  React.useEffect(() => {
-    const stored = window.localStorage.getItem("theme");
-    const initial: ThemePref =
-      stored === "light" || stored === "dark" || stored === "system"
-        ? (stored as ThemePref)
-        : "system";
-
-    setThemePref(initial);
-    applyTheme(initial);
-
-    const mql = window.matchMedia?.("(prefers-color-scheme: dark)");
-    if (!mql) return;
-
-    const onChange = () => {
-      const cur =
-        (window.localStorage.getItem("theme") as ThemePref | null) ?? initial;
-      if (cur === "system") applyTheme("system");
-    };
-
-    try {
-      mql.addEventListener("change", onChange);
-      return () => mql.removeEventListener("change", onChange);
-    } catch {
-      // @ts-ignore
-      mql.addListener(onChange);
-      // @ts-ignore
-      return () => mql.removeListener(onChange);
-    }
-  }, []);
 
   /** -------- App state -------- */
   const [teams, setTeams] = React.useState<string[]>([]);
@@ -209,9 +136,13 @@ export default function Home() {
   const [games, setGames] = React.useState<Game[]>([]);
   const [loadingGames, setLoadingGames] = React.useState(false);
 
+  const searchParams = useSearchParams();
+  const teamParam = searchParams.get("team")?.trim();
+
   const [view, setView] = React.useState<"all" | "played" | "upcoming">(
     "upcoming"
   );
+  const [sortNewestFirst, setSortNewestFirst] = React.useState(false);
 
   const boxRef = React.useRef<HTMLDivElement | null>(null);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
@@ -283,6 +214,13 @@ export default function Home() {
     }
   }
 
+  React.useEffect(() => {
+    if (!teamParam) return;
+    setQuery(teamParam);
+    search(teamParam);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teamParam]);
+
   const suggestions = React.useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return teams.slice(0, 20);
@@ -336,6 +274,11 @@ export default function Home() {
   // Base dataset
   const baseGames = query.trim() ? games : allGames;
 
+  const orderByPreference = React.useCallback(
+    (list: Game[]) => (sortNewestFirst ? [...list].reverse() : list),
+    [sortNewestFirst]
+  );
+
   // Default upcoming (browse mode): next 14 days, unplayed
   const defaultUpcoming = React.useMemo(() => {
     const today = startOfTodayLocal();
@@ -355,7 +298,21 @@ export default function Home() {
     : defaultUpcoming;
 
   const visibleGames =
-    view === "played" ? playedGames : view === "upcoming" ? upcomingGames : baseGames;
+    view === "played"
+      ? orderByPreference(playedGames)
+      : view === "upcoming"
+      ? orderByPreference(upcomingGames)
+      : orderByPreference(baseGames);
+
+  const viewLabel =
+    view === "played"
+      ? "played games"
+      : view === "upcoming"
+      ? "upcoming games"
+      : "all games";
+
+  const sortDirectionText = sortNewestFirst ? "newest to oldest" : "oldest to newest";
+  const toggleLabel = sortNewestFirst ? "Show oldest first" : "Show newest first";
 
   function TeamLabel({
     name,
@@ -407,59 +364,11 @@ export default function Home() {
       : `No games found for "${query.trim()}"`
     : `Browsing: next ${DEFAULT_UPCOMING_DAYS} days`;
 
-  const ThemeIcon = themeIcon(themePref);
-
   return (
     <main className="min-h-screen bg-gradient-to-b from-muted/40 to-background">
-      {/* Slim sticky header (Ryan-style) */}
-      <div className="sticky top-0 z-40 border-b bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/50">
-        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
-          <div className="text-sm font-medium">Lakeshore HL • U14 AA Game Hub</div>
-
-          {/* Theme dropdown */}
-          <DropdownMenu modal={false}>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-2">
-                <ThemeIcon className="h-4 w-4" />
-                {themeLabel(themePref)}
-              </Button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent align="end" className="w-44">
-              <DropdownMenuLabel>Theme</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-
-              <DropdownMenuRadioGroup
-                value={themePref}
-                onValueChange={(v) => {
-                  const next = v as ThemePref;
-                  setThemePref(next);
-                  window.localStorage.setItem("theme", next);
-                  applyTheme(next);
-                }}
-              >
-                <DropdownMenuRadioItem value="system" className="gap-2">
-                  <Laptop className="h-4 w-4" />
-                  System
-                </DropdownMenuRadioItem>
-
-                <DropdownMenuRadioItem value="light" className="gap-2">
-                  <Sun className="h-4 w-4" />
-                  Light
-                </DropdownMenuRadioItem>
-
-                <DropdownMenuRadioItem value="dark" className="gap-2">
-                  <Moon className="h-4 w-4" />
-                  Dark
-                </DropdownMenuRadioItem>
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-
+      <HeaderBar />
       <div className="mx-auto max-w-5xl px-4 py-10">
-        <header className="mb-8 flex flex-col gap-3"><h1 className="text-4xl font-bold tracking-tight">Game Lookup</h1>
+        <header className="mb-8 flex flex-col gap-3"><h1 className="text-4xl font-bold tracking-tight">Game Scores</h1>
           <p className="max-w-2xl text-muted-foreground">
             Search for a team, or browse upcoming games by default.
           </p>
@@ -580,13 +489,25 @@ export default function Home() {
         </Card>
 
         <div className="mt-6">
-          <Tabs value={view} onValueChange={(v) => setView(v as any)}>
-            <TabsList className="rounded-xl">
-              <TabsTrigger value="upcoming">Upcoming ({upcomingGames.length})</TabsTrigger>
-              <TabsTrigger value="played">Played ({playedGames.length})</TabsTrigger>
-              <TabsTrigger value="all">All ({baseGames.length})</TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <div className="flex flex-col gap-2">
+            <Tabs value={view} onValueChange={(v) => setView(v as any)}>
+              <TabsList className="rounded-xl">
+                <TabsTrigger value="upcoming">Upcoming ({upcomingGames.length})</TabsTrigger>
+                <TabsTrigger value="played">Played ({playedGames.length})</TabsTrigger>
+                <TabsTrigger value="all">All ({baseGames.length})</TabsTrigger>
+              </TabsList>
+            </Tabs>
+            <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
+              <span>Showing {viewLabel} {sortDirectionText}.</span>
+              <button
+                type="button"
+                onClick={() => setSortNewestFirst((prev) => !prev)}
+                className="rounded-full border border-border/60 bg-muted/40 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground"
+              >
+                {toggleLabel}
+              </button>
+            </div>
+          </div>
         </div>
 
         <section className="mt-4 grid gap-3">
@@ -641,9 +562,6 @@ export default function Home() {
                         ) : null}
                       </div>
 
-                      {g.game_code ? (
-                        <div className="mt-1 text-xs text-muted-foreground">{g.game_code}</div>
-                      ) : null}
                     </div>
 
                     <div className="flex items-center justify-between sm:flex-col sm:items-end sm:justify-start">
