@@ -132,8 +132,6 @@ export function HeaderBar() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-44">
-              <DropdownMenuSeparator />
-
               <DropdownMenuRadioGroup
                 value={themePref}
                 onValueChange={(v) => {
