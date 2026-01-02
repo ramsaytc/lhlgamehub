@@ -2,8 +2,6 @@
 
 import * as React from "react";
 import {
-  ArrowDown,
-  ArrowUp,
   CalendarDays,
   MapPin,
   Search,
@@ -181,7 +179,6 @@ export default function Home() {
     "upcoming"
   );
   const [sortNewestFirst, setSortNewestFirst] = React.useState(false);
-  const [showScrollActions, setShowScrollActions] = React.useState(false);
 
   const boxRef = React.useRef<HTMLDivElement | null>(null);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
@@ -260,17 +257,6 @@ export default function Home() {
       return () => mql.removeListener(update);
     }
   }, []);
-
-  React.useEffect(() => {
-    if (typeof window === "undefined") return;
-    const handleScroll = () => {
-      const shouldShow = isMobileView && window.scrollY > 200;
-      setShowScrollActions((prev) => (prev === shouldShow ? prev : shouldShow));
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isMobileView]);
 
   function formatRecord(row?: StandingRow) {
     if (!row) return null;
@@ -379,16 +365,6 @@ export default function Home() {
     lastSearchedRef.current = "";
     search(t);
   }
-
-  const scrollToTop = () => {
-    if (typeof window === "undefined") return;
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const scrollToBottom = () => {
-    if (typeof window === "undefined") return;
-    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-  };
 
   // Debounced auto-search while typing
   React.useEffect(() => {
@@ -771,7 +747,7 @@ export default function Home() {
                                     </span>
                                   </div>
                                 ) : (
-                                  <div className="flex flex-col items-center gap-1 text-sm text-muted-foreground">
+                                  <div className="flex flex-col items-center gap-0.5 text-sm text-muted-foreground">
                                     <span className="text-[11px] font-semibold tabular-nums">
                                       {g.time || "TBD"}
                                     </span>
@@ -841,7 +817,7 @@ export default function Home() {
                         ) : null}
                       </div>
                         {played ? (
-                          <div className="flex flex-col items-center gap-1 pt-2 sm:pt-4 text-sm text-muted-foreground">
+                          <div className="flex flex-col items-center gap-0.5 pt-2 sm:pt-4 text-sm text-muted-foreground">
                             <span className="text-[11px] font-semibold tabular-nums">
                               {g.time || "TBD"}
                             </span>
@@ -857,32 +833,6 @@ export default function Home() {
             })
           )}
         </section>
-        <div
-          className={`fixed bottom-5 right-4 z-50 flex flex-col gap-2 transition-all duration-200 sm:hidden ${
-            isMobileView ? "" : "hidden"
-          } ${
-            showScrollActions
-              ? "opacity-100 pointer-events-auto translate-y-0"
-              : "opacity-0 pointer-events-none translate-y-3 invisible"
-          }`}
-        >
-          <button
-            type="button"
-            onClick={scrollToTop}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-background/90 text-muted-foreground shadow-lg shadow-black/30 transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-foreground"
-            aria-label="Scroll to top"
-          >
-            <ArrowUp className="h-4 w-4" />
-          </button>
-          <button
-            type="button"
-            onClick={scrollToBottom}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-background/90 text-muted-foreground shadow-lg shadow-black/30 transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-foreground"
-            aria-label="Scroll to bottom"
-          >
-            <ArrowDown className="h-4 w-4" />
-          </button>
-        </div>
       </div>
     </main>
   );
