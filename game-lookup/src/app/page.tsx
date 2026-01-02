@@ -225,7 +225,9 @@ export default function Home() {
         if (!res.ok) return;
         const data = await res.json();
         if (cancelled) return;
-        const rows = Array.isArray(data.standings) ? data.standings : [];
+        const rows: StandingRow[] = Array.isArray(data.standings)
+          ? data.standings
+          : [];
         const map: Record<string, StandingRow> = {};
         rows.forEach((row) => {
           const key = row.team?.trim();
