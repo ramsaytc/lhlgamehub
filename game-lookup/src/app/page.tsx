@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import {
   CalendarDays,
   MapPin,
@@ -300,7 +301,7 @@ export default function Home() {
     }
   }, [query]);
 
-  async function search(teamText?: string) {
+  const search = React.useCallback(async (teamText?: string) => {
     const q = (teamText ?? query).trim();
     if (!q) return;
 
@@ -315,7 +316,7 @@ export default function Home() {
     } finally {
       setLoadingGames(false);
     }
-  }
+  }, [query]);
 
   React.useEffect(() => {
     if (typeof window === "undefined") return;
@@ -324,7 +325,6 @@ export default function Home() {
     if (!teamParam) return;
     setQuery(teamParam);
     search(teamParam);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   const suggestions = React.useMemo(() => {
@@ -492,10 +492,12 @@ export default function Home() {
         }}
       >
         {logoSrc ? (
-          <img
+          <Image
             src={logoSrc}
             alt={`${name} logo`}
             loading="lazy"
+            width={64}
+            height={64}
             className="h-16 w-16 object-contain"
           />
         ) : null}
@@ -634,7 +636,14 @@ export default function Home() {
 
         <div className="mt-6">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <Tabs value={view} onValueChange={(v) => setView(v as any)}>
+            <Tabs
+              value={view}
+              onValueChange={(value) => {
+                if (value === "upcoming" || value === "played" || value === "all") {
+                  setView(value);
+                }
+              }}
+            >
               <TabsList className="rounded-xl">
                 <TabsTrigger value="upcoming">Upcoming ({upcomingGames.length})</TabsTrigger>
                 <TabsTrigger value="played">Played ({playedGames.length})</TabsTrigger>
@@ -647,6 +656,7 @@ export default function Home() {
                   type="button"
                   onClick={() => setSortNewestFirst((prev) => !prev)}
                   className="rounded-full border border-border/60 bg-muted/40 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground"
+                  aria-label={`Sort by date: ${sortDirectionText}`}
                 >
                   {toggleLabel}
                 </button>
@@ -655,7 +665,7 @@ export default function Home() {
           </div>
         </div>
 
-        <section className="mt-4 grid gap-3">
+        <section className="mt-4 grid gap-3" aria-label={viewLabel}>
           {loadingGames ? (
             <Card className="border-muted/60">
               <CardContent className="py-10 text-sm text-muted-foreground">

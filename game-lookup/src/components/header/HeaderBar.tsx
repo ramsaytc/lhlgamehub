@@ -61,12 +61,12 @@ export function HeaderBar() {
             <span className="inline sm:hidden">LHL • U14 AA</span>
           </Link>
           <nav className="hidden md:flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
-            <a className="transition-colors hover:text-foreground" href="/">
+            <Link className="transition-colors hover:text-foreground" href="/">
               GAME SCORES
-            </a>
-            <a className="transition-colors hover:text-foreground" href="/standings">
+            </Link>
+            <Link className="transition-colors hover:text-foreground" href="/standings">
               STANDINGS
-            </a>
+            </Link>
           </nav>
         </div>
         <div className="flex items-center gap-3">

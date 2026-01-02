@@ -6,6 +6,22 @@ import path from "path";
 import { SortableStandingsTable } from "@/components/standings/SortableStandingsTable";
 
 const LOGO_DIR = path.join(process.cwd(), "public", "logos");
+const logoManifest = new Map<string, string>();
+
+try {
+  const files = fs.readdirSync(LOGO_DIR);
+  for (const file of files) {
+    const match = file.match(/^(.+)\.(svg|png)$/);
+    if (!match) continue;
+    const slug = match[1];
+    const ext = match[2];
+    if (ext === "svg" || !logoManifest.has(slug)) {
+      logoManifest.set(slug, `/logos/${slug}.${ext}`);
+    }
+  }
+} catch (error) {
+  console.error("Unable to read logo directory:", error);
+}
 
 function teamSlug(team: string) {
   return team
@@ -15,15 +31,7 @@ function teamSlug(team: string) {
 }
 
 function resolveLogoPath(slug: string) {
-  const svgPath = `/logos/${slug}.svg`;
-  const pngPath = `/logos/${slug}.png`;
-  if (fs.existsSync(path.join(LOGO_DIR, `${slug}.svg`))) {
-    return svgPath;
-  }
-  if (fs.existsSync(path.join(LOGO_DIR, `${slug}.png`))) {
-    return pngPath;
-  }
-  return svgPath;
+  return logoManifest.get(slug) ?? `/logos/${slug}.svg`;
 }
 
 export const metadata = {
