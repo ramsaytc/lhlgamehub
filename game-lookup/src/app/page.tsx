@@ -1,7 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { CalendarDays, MapPin, Search, Trophy, X } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowUp,
+  CalendarDays,
+  MapPin,
+  Search,
+  Trophy,
+  X,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,6 +23,8 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+
+import type { StandingRow } from "@/lib/standings";
 
 
 
@@ -31,6 +41,32 @@ const TEAM_COLORS: Record<string, string> = {
   "Belleville Bulls": "#ffd658",
   "Whitby Wildcats": "#f3ae23",
   "Northumberland Nighthawks": "#1e428a",
+};
+
+const TEAM_NICKNAMES: Record<string, string> = {
+  "Oshawa Generals": "Generals",
+  "Clarington Toros": "Toros",
+  "North Durham Warriors": "Warriors",
+  "Whitby Wildcats": "Wildcats",
+  "Ajax-Pickering Raiders": "Raiders",
+  "Belleville Bulls": "Bulls",
+  "Kingston Canadians": "Canadians",
+  "Peterborough Petes": "Petes",
+  "Northumberland Nighthawks": "Nighthawks",
+  "Quinte West Hawks": "Hawks",
+};
+
+const TEAM_LOGOS: Record<string, string> = {
+  "Oshawa Generals": "/logos/oshawa-generals.svg",
+  "Clarington Toros": "/logos/clarington-toros.svg",
+  "North Durham Warriors": "/logos/north-durham-warriors.svg",
+  "Whitby Wildcats": "/logos/whitby-wildcats.svg",
+  "Ajax-Pickering Raiders": "/logos/ajax-pickering-raiders.png",
+  "Belleville Bulls": "/logos/belleville-bulls.svg",
+  "Kingston Canadians": "/logos/kingston-canadians.svg",
+  "Peterborough Petes": "/logos/peterborough-petes.png",
+  "Northumberland Nighthawks": "/logos/northumberland-nighthawks.svg",
+  "Quinte West Hawks": "/logos/quinte-west-hawks.svg",
 };
 
 function teamColor(team?: string) {
@@ -68,6 +104,13 @@ function scoreText(g: Game) {
   const a = (g.away_score || "").trim();
   const h = (g.home_score || "").trim();
   return a && h ? `${a}-${h}` : "TBD";
+}
+
+function parseScoreValue(score?: string) {
+  const value = (score || "").trim();
+  if (!value) return null;
+  const num = Number(value);
+  return Number.isFinite(num) ? num : null;
 }
 
 function HighlightMatch({ label, query }: { label: string; query: string }) {
@@ -132,15 +175,18 @@ export default function Home() {
   const [allGames, setAllGames] = React.useState<Game[]>([]);
   const [games, setGames] = React.useState<Game[]>([]);
   const [loadingGames, setLoadingGames] = React.useState(false);
+  const [teamRecords, setTeamRecords] = React.useState<Record<string, StandingRow>>({});
 
   const [view, setView] = React.useState<"all" | "played" | "upcoming">(
     "upcoming"
   );
   const [sortNewestFirst, setSortNewestFirst] = React.useState(false);
+  const [showScrollActions, setShowScrollActions] = React.useState(false);
 
   const boxRef = React.useRef<HTMLDivElement | null>(null);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
   const listRef = React.useRef<HTMLDivElement | null>(null);
+  const [isMobileView, setIsMobileView] = React.useState(false);
 
   const lastSearchedRef = React.useRef<string>("");
 
@@ -169,6 +215,81 @@ export default function Home() {
       }
     })();
   }, []);
+
+  React.useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const res = await fetch("/api/standings");
+        if (!res.ok) return;
+        const data = await res.json();
+        if (cancelled) return;
+        const rows = Array.isArray(data.standings) ? data.standings : [];
+        const map: Record<string, StandingRow> = {};
+        rows.forEach((row) => {
+          const key = row.team?.trim();
+          if (key) map[key] = row;
+        });
+        if (!cancelled) {
+          setTeamRecords(map);
+        }
+      } catch (error) {
+        console.error("Unable to load standings for records:", error);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    const query = "(max-width: 639px)";
+    const mql = window.matchMedia(query);
+    const update = () => setIsMobileView(mql.matches);
+    update();
+    try {
+      mql.addEventListener("change", update);
+      return () => mql.removeEventListener("change", update);
+    } catch {
+      mql.addListener(update);
+      return () => mql.removeListener(update);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    const handleScroll = () => {
+      const shouldShow = isMobileView && window.scrollY > 200;
+      setShowScrollActions((prev) => (prev === shouldShow ? prev : shouldShow));
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isMobileView]);
+
+  function formatRecord(row?: StandingRow) {
+    if (!row) return null;
+    const w = row.w?.trim() || "0";
+    const l = row.l?.trim() || "0";
+    const t = row.t?.trim() || "0";
+    return `${w}-${l}-${t}`;
+  }
+
+  function recordFor(team?: string) {
+    if (!team) return null;
+    const key = team.trim();
+    if (!key) return null;
+    return formatRecord(teamRecords[key]);
+  }
+
+  function stripDayOfWeek(value?: string) {
+    if (!value) return "";
+    const cleaned = value.replace(/\s*\([^)]*\)/g, "").trim();
+    return cleaned || value;
+  }
 
   // Close dropdown on outside click
   React.useEffect(() => {
@@ -257,6 +378,16 @@ export default function Home() {
     search(t);
   }
 
+  const scrollToTop = () => {
+    if (typeof window === "undefined") return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const scrollToBottom = () => {
+    if (typeof window === "undefined") return;
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  };
+
   // Debounced auto-search while typing
   React.useEffect(() => {
     const q = query.trim();
@@ -331,16 +462,19 @@ export default function Home() {
       <button
         type="button"
         className="group inline-flex items-baseline gap-2 border-0 bg-transparent p-0 text-left cursor-pointer hover:opacity-90"
-        onClick={() => chooseTeamFromCard(name)}
+        onClick={(e) => {
+          e.stopPropagation();
+          chooseTeamFromCard(name);
+        }}
       >
         {dotPosition === "before" ? (
           <span
-            className="inline-block h-2 w-2 rounded-full shrink-0 align-middle"
+            className="hidden sm:inline-block h-2 w-2 rounded-full shrink-0 align-middle"
             style={{ backgroundColor: color }}
           />
         ) : null}
         <span
-          className="pb-0.5 transition-shadow shadow-[inset_0_-2px_0_var(--team-underline)] group-hover:shadow-[inset_0_-2px_0_var(--team-underline-strong)]"
+          className="hidden sm:inline pb-0.5 transition-shadow sm:shadow-[inset_0_-2px_0_var(--team-underline)] sm:group-hover:shadow-[inset_0_-2px_0_var(--team-underline-strong)]"
           style={
             {
               "--team-underline": underline,
@@ -352,9 +486,46 @@ export default function Home() {
         </span>
         {dotPosition === "after" ? (
           <span
-            className="inline-block h-2 w-2 rounded-full shrink-0 align-middle"
+            className="hidden sm:inline-block h-2 w-2 rounded-full shrink-0 align-middle"
             style={{ backgroundColor: color }}
           />
+        ) : null}
+      </button>
+    );
+  }
+
+  function TeamLabelMobile({
+    name,
+    record,
+  }: {
+    name?: string;
+    record?: string;
+  }) {
+    if (!name) return null;
+    const nickname = TEAM_NICKNAMES[name] || name;
+    const logoSrc = TEAM_LOGOS[name];
+    return (
+      <button
+        type="button"
+        className="flex w-full max-w-[160px] flex-col items-center gap-1 border-0 bg-transparent p-0 text-center cursor-pointer hover:opacity-90"
+        onClick={(e) => {
+          e.stopPropagation();
+          chooseTeamFromCard(name);
+        }}
+      >
+        {logoSrc ? (
+          <img
+            src={logoSrc}
+            alt={`${name} logo`}
+            loading="lazy"
+            className="h-16 w-16 object-contain"
+          />
+        ) : null}
+        <span className="sr-only">{nickname}</span>
+        {record ? (
+          <span className="text-xs uppercase tracking-[0.08em] text-muted-foreground">
+            {record}
+          </span>
         ) : null}
       </button>
     );
@@ -520,66 +691,196 @@ export default function Home() {
               </CardContent>
             </Card>
           ) : (
-            visibleGames.map((g, idx) => (
-              <Card
-                key={g.game_url || idx}
-                className="border-muted/60 transition-shadow hover:shadow-md hover:shadow-black/5"
-              >
-                <CardContent className="py-4">
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                    <div className="min-w-0">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <div className="text-base font-semibold">
-                          <TeamLabel name={g.away} dotPosition="before" />{" "}
-                          <span className="mx-2 text-muted-foreground">@</span>{" "}
-                          <TeamLabel name={g.home} dotPosition="after" />
+            visibleGames.map((g, idx) => {
+              const awayScoreValue = parseScoreValue(g.away_score);
+              const homeScoreValue = parseScoreValue(g.home_score);
+              const played = isPlayed(g);
+              const winner =
+                played && awayScoreValue !== null && homeScoreValue !== null
+                  ? awayScoreValue > homeScoreValue
+                    ? "away"
+                    : awayScoreValue < homeScoreValue
+                    ? "home"
+                    : "tie"
+                  : null;
+              const awayScoreClass =
+                winner === "home" ? "text-muted-foreground" : "text-foreground";
+              const homeScoreClass =
+                winner === "away" ? "text-muted-foreground" : "text-foreground";
+              const awayRecord = !played ? recordFor(g.away) : null;
+              const homeRecord = !played ? recordFor(g.home) : null;
+              const canOpenGamePage = isMobileView && !!g.game_url;
+              const mobileDateText = stripDayOfWeek(g.date_text) || g.date_text;
+              const handleCardClick = () => {
+                if (!canOpenGamePage) return;
+                window.open(g.game_url, "_blank", "noreferrer");
+              };
+              const handleCardKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+                if (!canOpenGamePage) return;
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  window.open(g.game_url, "_blank", "noreferrer");
+                }
+              };
+              return (
+                <Card
+                  key={g.game_url || idx}
+                  className={`border-muted/60 transition-shadow hover:shadow-md hover:shadow-black/5 ${
+                    canOpenGamePage ? "cursor-pointer" : ""
+                  }`}
+                >
+                  <CardContent
+                    className="py-4"
+                    role={canOpenGamePage ? "link" : undefined}
+                    tabIndex={canOpenGamePage ? 0 : undefined}
+                    aria-label={
+                      canOpenGamePage ? "Open the game page in a new tab" : undefined
+                    }
+                    onClick={handleCardClick}
+                    onKeyDown={handleCardKeyDown}
+                  >
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                      <div className="min-w-0">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
+                          <div className="hidden sm:flex text-base font-semibold sm:items-center">
+                            <TeamLabel name={g.away} dotPosition="before" />
+                            <span className="mx-2 text-muted-foreground">@</span>
+                            <TeamLabel name={g.home} dotPosition="after" />
+                          </div>
+                          <div className="w-full sm:hidden">
+                            <div className="flex items-center justify-between gap-4">
+                              <div className="flex flex-1 justify-start items-center">
+                                <TeamLabelMobile
+                                  name={g.away}
+                                  record={awayRecord ?? undefined}
+                                />
+                              </div>
+                              <div className="flex flex-1 flex-col items-center justify-center gap-1">
+                                {played ? (
+                                  <div className="flex items-baseline gap-1 text-2xl font-semibold tabular-nums">
+                                    <span className={awayScoreClass}>
+                                      {awayScoreValue ?? "-"}
+                                    </span>
+                                    <span className="text-2xl font-semibold text-muted-foreground">
+                                      -
+                                    </span>
+                                    <span className={homeScoreClass}>
+                                      {homeScoreValue ?? "-"}
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <div className="flex flex-col items-center gap-1 text-sm text-muted-foreground">
+                                    <span className="text-[11px] font-semibold tabular-nums">
+                                      {g.time || "TBD"}
+                                    </span>
+                                    <span className="uppercase tracking-[0.08em] text-[11px]">
+                                      {mobileDateText || "DATE TBD"}
+                                    </span>
+                                  </div>
+                                )}
+                                {played && canOpenGamePage ? (
+                                  <span className="text-[10px] uppercase tracking-[0.08em] text-muted-foreground">
+                                    GAME PAGE
+                                  </span>
+                                ) : null}
+                              </div>
+                              <div className="flex flex-1 justify-end items-center">
+                                <TeamLabelMobile
+                                  name={g.home}
+                                  record={homeRecord ?? undefined}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <Badge
+                            variant={played ? "default" : "secondary"}
+                            className="hidden sm:inline-flex sm:ml-auto"
+                          >
+                            {played ? (
+                              <span className="inline-flex items-center gap-1">
+                                <Trophy className="h-3.5 w-3.5" /> Final
+                              </span>
+                            ) : (
+                              "Upcoming"
+                            )}
+                          </Badge>
                         </div>
-                        <Badge variant={isPlayed(g) ? "default" : "secondary"}>
-                          {isPlayed(g) ? (
-                            <span className="inline-flex items-center gap-1">
-                              <Trophy className="h-3.5 w-3.5" /> Final
-                            </span>
-                          ) : (
-                            "Upcoming"
-                          )}
-                        </Badge>
-                      </div>
 
-                      <div className="mt-2 flex flex-col gap-1 text-sm text-muted-foreground sm:flex-row sm:items-center sm:gap-3">
-                        <span className="inline-flex items-center gap-1">
-                          <CalendarDays className="h-4 w-4" />
-                          {g.date_text} • {g.time}
-                        </span>
-                        {g.venue ? (
-                          <span className="inline-flex items-center gap-1">
-                            <MapPin className="h-4 w-4" />
-                            {g.venue}
-                          </span>
+                        {!played ? (
+                          <div className="mt-2 hidden sm:flex flex-col gap-1 text-sm text-muted-foreground sm:flex-row sm:items-center sm:gap-3">
+                            <span className="inline-flex items-center gap-1">
+                              <CalendarDays className="hidden sm:inline-block h-4 w-4" />
+                              {g.date_text} • {g.time}
+                            </span>
+                            {g.venue ? (
+                              <span className="hidden sm:inline-flex items-center gap-1">
+                                <MapPin className="h-4 w-4" />
+                                {g.venue}
+                              </span>
+                            ) : null}
+                          </div>
                         ) : null}
                       </div>
 
-                    </div>
+                      <div className="flex items-center justify-between sm:flex-col sm:items-end sm:justify-start">
+                        <div className="text-2xl font-bold tabular-nums hidden sm:block">
+                          {scoreText(g)}
+                        </div>
 
-                    <div className="flex items-center justify-between sm:flex-col sm:items-end sm:justify-start">
-                      <div className="text-2xl font-bold tabular-nums">{scoreText(g)}</div>
-
-                      {g.game_url ? (
-                        <a
-                          className="mt-1 text-sm underline underline-offset-4 hover:opacity-80"
-                          href={g.game_url}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Game page
-                        </a>
-                      ) : null}
+                        {g.game_url ? (
+                          <a
+                            className="mt-1 text-sm underline underline-offset-4 hover:opacity-80 hidden sm:inline-flex"
+                            href={g.game_url}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            Game page
+                          </a>
+                        ) : null}
+                      </div>
+                        {played ? (
+                          <div className="flex flex-col items-center gap-1 pt-2 sm:pt-4 text-sm text-muted-foreground">
+                            <span className="text-[11px] font-semibold tabular-nums">
+                              {g.time || "TBD"}
+                            </span>
+                            <span className="uppercase tracking-[0.08em] text-[11px] text-muted-foreground">
+                              {mobileDateText || "DATE TBD"}
+                            </span>
+                          </div>
+                        ) : null}
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))
+                  </CardContent>
+                </Card>
+              );
+            })
           )}
         </section>
+        <div
+          className={`fixed bottom-5 right-4 z-50 flex flex-col gap-2 transition-all duration-200 sm:hidden ${
+            isMobileView ? "" : "hidden"
+          } ${
+            showScrollActions
+              ? "opacity-100 pointer-events-auto translate-y-0"
+              : "opacity-0 pointer-events-none translate-y-3 invisible"
+          }`}
+        >
+          <button
+            type="button"
+            onClick={scrollToTop}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-background/90 text-muted-foreground shadow-lg shadow-black/30 transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-foreground"
+            aria-label="Scroll to top"
+          >
+            <ArrowUp className="h-4 w-4" />
+          </button>
+          <button
+            type="button"
+            onClick={scrollToBottom}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-background/90 text-muted-foreground shadow-lg shadow-black/30 transition hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-foreground"
+            aria-label="Scroll to bottom"
+          >
+            <ArrowDown className="h-4 w-4" />
+          </button>
+        </div>
       </div>
     </main>
   );

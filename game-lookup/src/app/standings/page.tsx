@@ -1,27 +1,11 @@
-import { promises as fs } from "fs";
-import path from "path";
-
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
-import Link from "next/link";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { loadStandings } from "@/lib/standings";
+import fs from "fs";
+import path from "path";
+import { SortableStandingsTable } from "@/components/standings/SortableStandingsTable";
 
-const TEAM_COLORS: Record<string, string> = {
-  "Clarington Toros": "#ac172b",
-  "Kingston Canadians": "#ed1c24",
-  "Quinte West Hawks": "#b5975a",
-  "North Durham Warriors": "#f05322",
-  "Oshawa Generals": "#e31736",
-  "Peterborough Petes": "#76283e",
-  "Ajax-Pickering Raiders": "#c00001",
-  "Belleville Bulls": "#ffd658",
-  "Whitby Wildcats": "#f3ae23",
-  "Northumberland Nighthawks": "#1e428a",
-};
-
-function teamColor(team: string) {
-  return TEAM_COLORS[team] || "#d4d4d8";
-}
+const LOGO_DIR = path.join(process.cwd(), "public", "logos");
 
 function teamSlug(team: string) {
   return team
@@ -30,74 +14,16 @@ function teamSlug(team: string) {
     .replace(/^-+|-+$/g, "");
 }
 
-function TeamLogo({ team }: { team: string }) {
-  const slug = teamSlug(team);
-  return (
-    <div
-      className="relative h-9 w-9 flex-shrink-0 overflow-hidden rounded-full border"
-      style={{ borderColor: teamColor(team) }}
-    >
-      <Image
-        src={`/logos/${slug}.svg`}
-        alt={`${team} logo`}
-        fill
-        sizes="36px"
-        className="object-cover"
-      />
-    </div>
-  );
-}
-
-const STANDINGS_CSV =
-  process.env.STANDINGS_CSV_PATH ||
-  path.join(process.cwd(), "exports", "2025-2026_u14aa_standings.csv");
-
-type StandingRow = {
-  scraped_at: string;
-  team: string;
-  gp: string;
-  w: string;
-  l: string;
-  t: string;
-  pts: string;
-  gf: string;
-  ga: string;
-  l10: string;
-  strk: string;
-};
-
-async function loadStandings(): Promise<StandingRow[]> {
-  try {
-    const raw = await fs.readFile(STANDINGS_CSV, "utf-8");
-    const lines = raw.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
-    if (lines.length <= 1) return [];
-
-    const headers = lines[0]
-      .split(",")
-      .map((value) => value.trim().toLowerCase());
-
-    const indexOf = (column: string) => headers.indexOf(column);
-
-    return lines.slice(1).map((line) => {
-      const columns = line.split(",");
-      return {
-        scraped_at: columns[indexOf("scraped_at")]?.trim() ?? "",
-        team: columns[indexOf("team")]?.trim() ?? "",
-        gp: columns[indexOf("gp")]?.trim() ?? "",
-        w: columns[indexOf("w")]?.trim() ?? "",
-        l: columns[indexOf("l")]?.trim() ?? "",
-        t: columns[indexOf("t")]?.trim() ?? "",
-        pts: columns[indexOf("pts")]?.trim() ?? "",
-        gf: columns[indexOf("gf")]?.trim() ?? "",
-        ga: columns[indexOf("ga")]?.trim() ?? "",
-        l10: columns[indexOf("l10")]?.trim() ?? "",
-        strk: columns[indexOf("strk")]?.trim() ?? "",
-      };
-    });
-  } catch (error) {
-    console.error("Unable to read standings CSV:", error);
-    return [];
+function resolveLogoPath(slug: string) {
+  const svgPath = `/logos/${slug}.svg`;
+  const pngPath = `/logos/${slug}.png`;
+  if (fs.existsSync(path.join(LOGO_DIR, `${slug}.svg`))) {
+    return svgPath;
   }
+  if (fs.existsSync(path.join(LOGO_DIR, `${slug}.png`))) {
+    return pngPath;
+  }
+  return svgPath;
 }
 
 export const metadata = {
@@ -107,13 +33,18 @@ export const metadata = {
 
 export default async function StandingsPage() {
   const standings = await loadStandings();
+  const logoMap: Record<string, string> = {};
+  standings.forEach((row) => {
+    const slug = teamSlug(row.team);
+    logoMap[row.team] = resolveLogoPath(slug);
+  });
   const updatedAt = standings[0]?.scraped_at;
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-muted/40 to-background">
       <div className="mx-auto max-w-5xl px-4 py-10">
         <header className="mb-8 flex flex-col gap-2">
-          <h1 className="text-4xl font-bold tracking-tight">League Standings</h1>
+          <h1 className="text-4xl font-bold tracking-tight">Standings</h1>
           <p className="max-w-2xl text-sm text-muted-foreground">
             Sorted by points, these standings give you the clearest view of the current
             U14 AA season along with rolling streak and goal data.
@@ -124,75 +55,18 @@ export default async function StandingsPage() {
           <CardHeader className="pb-3 pt-4 sm:pt-3" />
 
           <CardContent className="space-y-4 pt-0">
-            <div className="overflow-x-auto rounded-xl border border-muted/60 bg-background/70 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
-              <table className="w-full divide-y divide-muted/40 text-sm">
-                <thead className="sticky top-0 bg-muted/80 text-muted-foreground shadow-[inset_0_-1px_0_rgba(15,23,42,0.35)]">
-                  <tr className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-                    <th className="p-3 text-left font-semibold">Team</th>
-                    <th className="p-3 text-right">GP</th>
-                    <th className="p-3 text-right">W</th>
-                    <th className="p-3 text-right">L</th>
-                    <th className="p-3 text-right">T</th>
-                    <th className="p-3 text-right">PTS</th>
-                    <th className="p-3 text-right">GF</th>
-                    <th className="p-3 text-right">GA</th>
-                    <th className="p-3 text-right">L10</th>
-                    <th className="p-3 text-right">STRK</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {standings.map((row, idx) => (
-                    <tr
-                      key={`${row.team}-${row.scraped_at}-${idx}`}
-                      className={`border-b border-muted/30 ${
-                        idx % 2 ? "bg-muted/10" : "bg-muted/5"
-                      } hover:bg-muted/20 transition-colors`}
-                    >
-                      <td className="max-w-[220px] px-3 py-2">
-                        <div className="flex items-center gap-3">
-                          <TeamLogo team={row.team} />
-                          <div className="flex max-w-[140px] flex-col text-left leading-tight">
-                            <Link
-                              className="font-semibold text-foreground"
-                              href={`/?team=${encodeURIComponent(row.team)}`}
-                            >
-                              {row.team}
-                            </Link>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-3 py-2 text-right font-medium tabular-nums">{row.gp}</td>
-                      <td className="px-3 py-2 text-right tabular-nums">{row.w}</td>
-                      <td className="px-3 py-2 text-right tabular-nums">{row.l}</td>
-                      <td className="px-3 py-2 text-right tabular-nums">{row.t}</td>
-                      <td className="px-3 py-2 text-right font-semibold tabular-nums">{row.pts}</td>
-                      <td className="px-3 py-2 text-right tabular-nums">{row.gf}</td>
-                      <td className="px-3 py-2 text-right tabular-nums">{row.ga}</td>
-                      <td className="px-3 py-2 text-right tabular-nums">{row.l10}</td>
-                      <td className="px-3 py-2 text-right tabular-nums">{row.strk || "—"}</td>
-                    </tr>
-                  ))}
-                    {standings.length === 0 ? (
-                      <tr>
-                        <td colSpan={10} className="p-6 text-center text-sm text-muted-foreground">
-                          Standings are being generated. Run the scraper to populate them.
-                        </td>
-                      </tr>
-                    ) : null}
-                  </tbody>
-                </table>
-              </div>
-              <div className="flex justify-end gap-2 text-xs text-muted-foreground items-center">
-                <Badge variant="secondary" className="text-xs uppercase tracking-widest">
-                  Last updated
-                </Badge>
-                <span>
-                  {updatedAt ? new Date(updatedAt).toLocaleString() : "Awaiting data"}
-                </span>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+            <SortableStandingsTable standings={standings} teamLogos={logoMap} />
+            <div className="flex justify-end gap-2 text-xs text-muted-foreground items-center">
+              <Badge variant="secondary" className="text-xs uppercase tracking-widest">
+                Last updated
+              </Badge>
+              <span>
+                {updatedAt ? new Date(updatedAt).toLocaleString() : "Awaiting data"}
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </main>
   );
 }
