@@ -3,17 +3,13 @@
 import * as React from "react";
 import Image from "next/image";
 import {
-  CalendarDays,
-  MapPin,
   Search,
-  Trophy,
   X,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Command,
@@ -28,19 +24,6 @@ import type { StandingRow } from "@/lib/standings";
 
 
 /* -------------------- Team colours (dots only) -------------------- */
-
-const TEAM_COLORS: Record<string, string> = {
-  "Clarington Toros": "#ac172b",
-  "Kingston Canadians": "#ed1c24",
-  "Quinte West Hawks": "#b5975a",
-  "North Durham Warriors": "#f05322",
-  "Oshawa Generals": "#e31736",
-  "Peterborough Petes": "#76283e",
-  "Ajax-Pickering Raiders": "#c00001",
-  "Belleville Bulls": "#ffd658",
-  "Whitby Wildcats": "#f3ae23",
-  "Northumberland Nighthawks": "#1e428a",
-};
 
 const TEAM_NICKNAMES: Record<string, string> = {
   "Oshawa Generals": "Generals",
@@ -59,7 +42,7 @@ const TEAM_LOGOS: Record<string, string> = {
   "Oshawa Generals": "/logos/oshawa-generals.svg",
   "Clarington Toros": "/logos/clarington-toros.svg",
   "North Durham Warriors": "/logos/north-durham-warriors.svg",
-  "Whitby Wildcats": "/logos/whitby-wildcats.svg",
+  "Whitby Wildcats": "/logos/whitby-wildcats.png",
   "Ajax-Pickering Raiders": "/logos/ajax-pickering-raiders.png",
   "Belleville Bulls": "/logos/belleville-bulls.svg",
   "Kingston Canadians": "/logos/kingston-canadians.svg",
@@ -68,20 +51,6 @@ const TEAM_LOGOS: Record<string, string> = {
   "Quinte West Hawks": "/logos/quinte-west-hawks.svg",
 };
 
-function teamColor(team?: string) {
-  return (team && TEAM_COLORS[team]) || "#9ca3af"; // neutral gray fallback
-}
-
-function hexToRgba(hex: string, alpha: number) {
-  const raw = hex.replace("#", "").trim();
-  const full =
-    raw.length === 3 ? raw.split("").map((c) => c + c).join("") : raw;
-  if (!/^[0-9a-fA-F]{6}$/.test(full)) return `rgba(156, 163, 175, ${alpha})`;
-  const r = parseInt(full.slice(0, 2), 16);
-  const g = parseInt(full.slice(2, 4), 16);
-  const b = parseInt(full.slice(4, 6), 16);
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-}
 type Game = {
   date_text?: string;
   time?: string;
@@ -97,12 +66,6 @@ type Game = {
 
 function isPlayed(g: Game) {
   return (g.away_score || "").trim() !== "" && (g.home_score || "").trim() !== "";
-}
-
-function scoreText(g: Game) {
-  const a = (g.away_score || "").trim();
-  const h = (g.home_score || "").trim();
-  return a && h ? `${a}-${h}` : "TBD";
 }
 
 function parseScoreValue(score?: string) {
@@ -280,6 +243,15 @@ export default function Home() {
     return cleaned || value;
   }
 
+  function formatLocalDateLabel(iso?: string) {
+    const parsed = parseIsoDateLocal(iso);
+    if (!parsed) return "";
+    return parsed.toLocaleDateString("en-US", {
+      month: "short",
+      day: "2-digit",
+    });
+  }
+
   // Close dropdown on outside click
   React.useEffect(() => {
     function onDown(e: MouseEvent) {
@@ -417,7 +389,7 @@ export default function Home() {
       ? "upcoming games"
       : "all games";
 
-  const allowSorting = view !== "upcoming";
+  const allowSorting = true;
   const sortDirectionText = allowSorting
     ? sortNewestFirst
       ? "newest to oldest"
@@ -425,50 +397,24 @@ export default function Home() {
     : "oldest to newest";
   const toggleLabel = sortNewestFirst ? "Show oldest first" : "Show newest first";
 
-  function TeamLabel({
-    name,
-    dotPosition,
-  }: {
-    name?: string;
-    dotPosition: "before" | "after";
-  }) {
-    if (!name) return null;
-    const color = teamColor(name);
-    const underline = hexToRgba(color, 0.35);
-    const underlineStrong = hexToRgba(color, 0.6);
+  function TeamLabelDesktop({ team }: { team?: string }) {
+    if (!team) return null;
+    const logoSrc = TEAM_LOGOS[team];
     return (
-      <button
-        type="button"
-        className="group inline-flex items-baseline gap-2 border-0 bg-transparent p-0 text-left cursor-pointer hover:opacity-90"
-        onClick={(e) => {
-          e.stopPropagation();
-          chooseTeamFromCard(name);
-        }}
-      >
-        {dotPosition === "before" ? (
-          <span
-            className="hidden sm:inline-block h-2 w-2 rounded-full shrink-0 align-middle"
-            style={{ backgroundColor: color }}
-          />
+      <div className="flex flex-col items-center gap-2 text-center">
+        {logoSrc ? (
+          <div className="flex h-48 w-48 items-center justify-center">
+            <Image
+              src={logoSrc}
+              alt={`${team} logo`}
+              width={192}
+              height={192}
+              className="h-48 w-48 object-contain"
+            />
+          </div>
         ) : null}
-        <span
-          className="hidden sm:inline pb-0.5 transition-shadow sm:shadow-[inset_0_-2px_0_var(--team-underline)] sm:group-hover:shadow-[inset_0_-2px_0_var(--team-underline-strong)]"
-          style={
-            {
-              "--team-underline": underline,
-              "--team-underline-strong": underlineStrong,
-            } as React.CSSProperties
-          }
-        >
-          {name}
-        </span>
-        {dotPosition === "after" ? (
-          <span
-            className="hidden sm:inline-block h-2 w-2 rounded-full shrink-0 align-middle"
-            style={{ backgroundColor: color }}
-          />
-        ) : null}
-      </button>
+        <span className="text-sm font-semibold leading-tight">{team}</span>
+      </div>
     );
   }
 
@@ -528,7 +474,7 @@ export default function Home() {
             </div>
           </CardHeader>
 
-          <CardContent className="flex flex-col gap-4 sm:flex-row sm:items-start">
+          <CardContent className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:max-w-4xl sm:mx-auto">
             <div ref={boxRef} className="relative w-full sm:w-[560px]">
               <div className="relative">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -698,7 +644,10 @@ export default function Home() {
               const awayRecord = !played ? recordFor(g.away) : null;
               const homeRecord = !played ? recordFor(g.home) : null;
               const canOpenGamePage = isMobileView && !!g.game_url;
-              const mobileDateText = stripDayOfWeek(g.date_text) || g.date_text;
+              const mobileDateText =
+                stripDayOfWeek(g.date_text) ||
+                formatLocalDateLabel(g.game_date_iso) ||
+                g.date_text;
               const handleCardClick = () => {
                 if (!canOpenGamePage) return;
                 window.open(g.game_url, "_blank", "noreferrer");
@@ -727,115 +676,119 @@ export default function Home() {
                     onClick={handleCardClick}
                     onKeyDown={handleCardKeyDown}
                   >
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                      <div className="min-w-0">
-                        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
-                          <div className="hidden sm:flex text-base font-semibold sm:items-center">
-                            <TeamLabel name={g.away} dotPosition="before" />
-                            <span className="mx-2 text-muted-foreground">@</span>
-                            <TeamLabel name={g.home} dotPosition="after" />
-                          </div>
-                          <div className="w-full sm:hidden">
-                            <div className="flex items-center justify-between gap-4">
-                              <div className="flex flex-1 justify-start items-center">
-                                <TeamLabelMobile
-                                  name={g.away}
-                                  record={awayRecord ?? undefined}
-                                />
+                    <div className="mx-auto max-w-4xl">
+                      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                        <div className="min-w-0">
+                          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
+                            <div className="hidden sm:flex flex-col gap-3">
+                              <div className="flex items-center justify-between gap-8">
+                                <div className="flex-1 flex justify-start">
+                                  <TeamLabelDesktop team={g.away} />
+                                </div>
+                                <div className="flex-1 max-w-lg flex flex-col items-center justify-center gap-2 text-center">
+                                  {played ? (
+                                    <div className="flex items-baseline gap-1 text-2xl font-semibold tabular-nums">
+                                      <span className={awayScoreClass}>
+                                        {awayScoreValue ?? "-"}
+                                      </span>
+                                      <span className="text-2xl font-semibold text-muted-foreground">
+                                        -
+                                      </span>
+                                      <span className={homeScoreClass}>
+                                        {homeScoreValue ?? "-"}
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    <div className="flex flex-col items-center gap-0.5 text-sm text-muted-foreground">
+                                      <span className="text-[11px] font-semibold tabular-nums">
+                                        {g.time || "TBD"}
+                                      </span>
+                                      <span className="uppercase tracking-[0.08em] text-[11px]">
+                                        {mobileDateText || "DATE TBD"}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {played && canOpenGamePage ? (
+                                    <span className="text-[10px] uppercase tracking-[0.08em] text-muted-foreground">
+                                      GAME PAGE
+                                    </span>
+                                  ) : null}
+                                  {played ? (
+                                    <div className="flex flex-col items-center gap-0.5 text-sm text-muted-foreground">
+                                      <span className="uppercase tracking-[0.08em] text-[11px] text-muted-foreground">
+                                        {mobileDateText || "DATE TBD"}
+                                      </span>
+                                    </div>
+                                  ) : null}
+                                  {g.game_url ? (
+                                    <a
+                                      className="text-sm underline underline-offset-4 hover:opacity-80"
+                                      href={g.game_url}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                    >
+                                      Game page
+                                    </a>
+                                  ) : null}
+                                </div>
+                                <div className="flex-1 flex justify-end">
+                                  <TeamLabelDesktop team={g.home} />
+                                </div>
                               </div>
-                              <div className="flex flex-1 flex-col items-center justify-center gap-1">
-                                {played ? (
-                                  <div className="flex items-baseline gap-1 text-2xl font-semibold tabular-nums">
-                                    <span className={awayScoreClass}>
-                                      {awayScoreValue ?? "-"}
-                                    </span>
-                                    <span className="text-2xl font-semibold text-muted-foreground">
-                                      -
-                                    </span>
-                                    <span className={homeScoreClass}>
-                                      {homeScoreValue ?? "-"}
-                                    </span>
-                                  </div>
-                                ) : (
-                                  <div className="flex flex-col items-center gap-0.5 text-sm text-muted-foreground">
-                                    <span className="text-[11px] font-semibold tabular-nums">
-                                      {g.time || "TBD"}
-                                    </span>
-                                    <span className="uppercase tracking-[0.08em] text-[11px]">
+                            </div>
+                            <div className="w-full sm:hidden">
+                              <div className="flex items-center justify-between gap-4">
+                                <div className="flex flex-1 justify-start items-center">
+                                  <TeamLabelMobile
+                                    name={g.away}
+                                    record={awayRecord ?? undefined}
+                                  />
+                                </div>
+                                <div className="flex flex-1 flex-col items-center justify-center gap-1">
+                                  {played ? (
+                                    <div className="flex items-baseline gap-1 text-2xl font-semibold tabular-nums">
+                                      <span className={awayScoreClass}>
+                                        {awayScoreValue ?? "-"}
+                                      </span>
+                                      <span className="text-2xl font-semibold text-muted-foreground">
+                                        -
+                                      </span>
+                                      <span className={homeScoreClass}>
+                                        {homeScoreValue ?? "-"}
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    <div className="flex flex-col items-center gap-0.5 text-sm text-muted-foreground">
+                                      <span className="text-[11px] font-semibold tabular-nums">
+                                        {g.time || "TBD"}
+                                      </span>
+                                      <span className="uppercase tracking-[0.08em] text-[11px]">
+                                        {mobileDateText || "DATE TBD"}
+                                      </span>
+                                    </div>
+                                  )}
+                                  {played ? (
+                                    <span className="uppercase tracking-[0.08em] text-[11px] text-muted-foreground">
                                       {mobileDateText || "DATE TBD"}
                                     </span>
-                                  </div>
-                                )}
-                                {played && canOpenGamePage ? (
-                                  <span className="text-[10px] uppercase tracking-[0.08em] text-muted-foreground">
-                                    GAME PAGE
-                                  </span>
-                                ) : null}
-                              </div>
-                              <div className="flex flex-1 justify-end items-center">
-                                <TeamLabelMobile
-                                  name={g.home}
-                                  record={homeRecord ?? undefined}
-                                />
+                                  ) : null}
+                                  {played && canOpenGamePage ? (
+                                    <span className="text-[10px] uppercase tracking-[0.08em] text-muted-foreground">
+                                      GAME PAGE
+                                    </span>
+                                  ) : null}
+                                </div>
+                                <div className="flex flex-1 justify-end items-center">
+                                  <TeamLabelMobile
+                                    name={g.home}
+                                    record={homeRecord ?? undefined}
+                                  />
+                                </div>
                               </div>
                             </div>
                           </div>
-                          <Badge
-                            variant={played ? "default" : "secondary"}
-                            className="hidden sm:inline-flex sm:ml-auto"
-                          >
-                            {played ? (
-                              <span className="inline-flex items-center gap-1">
-                                <Trophy className="h-3.5 w-3.5" /> Final
-                              </span>
-                            ) : (
-                              "Upcoming"
-                            )}
-                          </Badge>
                         </div>
-
-                        {!played ? (
-                          <div className="mt-2 hidden sm:flex flex-col gap-1 text-sm text-muted-foreground sm:flex-row sm:items-center sm:gap-3">
-                            <span className="inline-flex items-center gap-1">
-                              <CalendarDays className="hidden sm:inline-block h-4 w-4" />
-                              {g.date_text} • {g.time}
-                            </span>
-                            {g.venue ? (
-                              <span className="hidden sm:inline-flex items-center gap-1">
-                                <MapPin className="h-4 w-4" />
-                                {g.venue}
-                              </span>
-                            ) : null}
-                          </div>
-                        ) : null}
                       </div>
-
-                      <div className="flex items-center justify-between sm:flex-col sm:items-end sm:justify-start">
-                        <div className="text-2xl font-bold tabular-nums hidden sm:block">
-                          {scoreText(g)}
-                        </div>
-
-                        {g.game_url ? (
-                          <a
-                            className="mt-1 text-sm underline underline-offset-4 hover:opacity-80 hidden sm:inline-flex"
-                            href={g.game_url}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            Game page
-                          </a>
-                        ) : null}
-                      </div>
-                        {played ? (
-                          <div className="flex flex-col items-center gap-0.5 pt-2 sm:pt-4 text-sm text-muted-foreground">
-                            <span className="text-[11px] font-semibold tabular-nums">
-                              {g.time || "TBD"}
-                            </span>
-                            <span className="uppercase tracking-[0.08em] text-[11px] text-muted-foreground">
-                              {mobileDateText || "DATE TBD"}
-                            </span>
-                          </div>
-                        ) : null}
                     </div>
                   </CardContent>
                 </Card>
