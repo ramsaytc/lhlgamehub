@@ -2470,7 +2470,7 @@
     "game_date_iso": "2025-12-22"
   },
   {
-    "scraped_at": "2026-01-03T23:43:22+00:00",
+    "scraped_at": "2026-01-04T03:40:07+00:00",
     "date_text": "Jan 03 (Sat)",
     "time": "4:00 PM",
     "away": "Clarington Toros",
@@ -2496,13 +2496,13 @@
     "game_date_iso": "2026-01-03"
   },
   {
-    "scraped_at": "2026-01-03T23:43:16+00:00",
+    "scraped_at": "2026-01-04T03:40:01+00:00",
     "date_text": "Jan 03 (Sat)",
     "time": "6:30 PM",
     "away": "Northumberland Nighthawks",
-    "away_score": "",
+    "away_score": "0",
     "home": "North Durham Warriors",
-    "home_score": "",
+    "home_score": "1",
     "game_code": "U14AA-021",
     "venue": "Scugog Arena (Pad 1)",
     "game_url": "https://lakeshorehockeyleague.net/Groups/1313/Games/2224682/",
@@ -2522,13 +2522,13 @@
     "game_date_iso": "2026-01-03"
   },
   {
-    "scraped_at": "2026-01-03T23:43:19+00:00",
+    "scraped_at": "2026-01-04T03:40:03+00:00",
     "date_text": "Jan 03 (Sat)",
     "time": "7:00 PM",
     "away": "Whitby Wildcats",
-    "away_score": "",
+    "away_score": "1",
     "home": "Oshawa Generals",
-    "home_score": "",
+    "home_score": "2",
     "game_code": "U14AA-078",
     "venue": "Delpark Homes Centre (Pad 2)",
     "game_url": "https://lakeshorehockeyleague.net/Groups/1313/Games/2224704/",
@@ -2548,7 +2548,7 @@
     "game_date_iso": "2026-01-03"
   },
   {
-    "scraped_at": "2026-01-03T23:43:24+00:00",
+    "scraped_at": "2026-01-04T03:40:09+00:00",
     "date_text": "Jan 04 (Sun)",
     "time": "4:30 PM",
     "away": "Whitby Wildcats",
@@ -2574,7 +2574,7 @@
     "game_date_iso": "2026-01-04"
   },
   {
-    "scraped_at": "2026-01-03T23:43:15+00:00",
+    "scraped_at": "2026-01-04T03:39:59+00:00",
     "date_text": "Jan 04 (Sun)",
     "time": "5:00 PM",
     "away": "North Durham Warriors",
@@ -2600,7 +2600,7 @@
     "game_date_iso": "2026-01-04"
   },
   {
-    "scraped_at": "2026-01-03T23:43:13+00:00",
+    "scraped_at": "2026-01-04T03:39:57+00:00",
     "date_text": "Jan 04 (Sun)",
     "time": "5:00 PM",
     "away": "Peterborough Petes",
@@ -2626,7 +2626,7 @@
     "game_date_iso": "2026-01-04"
   },
   {
-    "scraped_at": "2026-01-03T23:43:18+00:00",
+    "scraped_at": "2026-01-04T03:40:02+00:00",
     "date_text": "Jan 07 (Wed)",
     "time": "7:15 PM",
     "away": "Peterborough Petes",
@@ -2652,7 +2652,7 @@
     "game_date_iso": "2026-01-07"
   },
   {
-    "scraped_at": "2026-01-03T23:43:12+00:00",
+    "scraped_at": "2026-01-04T03:39:56+00:00",
     "date_text": "Jan 08 (Thu)",
     "time": "7:15 PM",
     "away": "Clarington Toros",
@@ -2678,7 +2678,7 @@
     "game_date_iso": "2026-01-08"
   },
   {
-    "scraped_at": "2026-01-03T23:43:20+00:00",
+    "scraped_at": "2026-01-04T03:40:05+00:00",
     "date_text": "Jan 09 (Fri)",
     "time": "6:30 PM",
     "away": "Northumberland Nighthawks",
@@ -2704,7 +2704,7 @@
     "game_date_iso": "2026-01-09"
   },
   {
-    "scraped_at": "2026-01-03T23:43:14+00:00",
+    "scraped_at": "2026-01-04T03:39:58+00:00",
     "date_text": "Jan 10 (Sat)",
     "time": "4:15 PM",
     "away": "Ajax-Pickering Raiders",
@@ -2730,7 +2730,7 @@
     "game_date_iso": "2026-01-10"
   },
   {
-    "scraped_at": "2026-01-03T23:43:20+00:00",
+    "scraped_at": "2026-01-04T03:40:05+00:00",
     "date_text": "Jan 10 (Sat)",
     "time": "6:00 PM",
     "away": "Peterborough Petes",
@@ -2756,7 +2756,7 @@
     "game_date_iso": "2026-01-10"
   },
   {
-    "scraped_at": "2026-01-03T23:43:22+00:00",
+    "scraped_at": "2026-01-04T03:40:06+00:00",
     "date_text": "Jan 10 (Sat)",
     "time": "7:00 PM",
     "away": "North Durham Warriors",
@@ -2782,7 +2782,7 @@
     "game_date_iso": "2026-01-10"
   },
   {
-    "scraped_at": "2026-01-03T23:43:21+00:00",
+    "scraped_at": "2026-01-04T03:40:06+00:00",
     "date_text": "Jan 11 (Sun)",
     "time": "2:15 PM",
     "away": "Peterborough Petes",
@@ -2808,7 +2808,7 @@
     "game_date_iso": "2026-01-11"
   },
   {
-    "scraped_at": "2026-01-03T23:43:14+00:00",
+    "scraped_at": "2026-01-04T03:39:58+00:00",
     "date_text": "Jan 11 (Sun)",
     "time": "3:00 PM",
     "away": "Quinte West Hawks",
@@ -2834,7 +2834,7 @@
     "game_date_iso": "2026-01-11"
   },
   {
-    "scraped_at": "2026-01-03T23:43:17+00:00",
+    "scraped_at": "2026-01-04T03:40:01+00:00",
     "date_text": "Jan 11 (Sun)",
     "time": "5:00 PM",
     "away": "Belleville Bulls",
@@ -2860,7 +2860,7 @@
     "game_date_iso": "2026-01-11"
   },
   {
-    "scraped_at": "2026-01-03T23:43:16+00:00",
+    "scraped_at": "2026-01-04T03:40:00+00:00",
     "date_text": "Jan 11 (Sun)",
     "time": "6:30 PM",
     "away": "Kingston Canadians",
@@ -2886,7 +2886,7 @@
     "game_date_iso": "2026-01-11"
   },
   {
-    "scraped_at": "2026-01-03T23:43:26+00:00",
+    "scraped_at": "2026-01-04T03:40:11+00:00",
     "date_text": "Jan 13 (Tue)",
     "time": "7:15 PM",
     "away": "Northumberland Nighthawks",
@@ -2912,7 +2912,7 @@
     "game_date_iso": "2026-01-13"
   },
   {
-    "scraped_at": "2026-01-03T23:43:18+00:00",
+    "scraped_at": "2026-01-04T03:40:03+00:00",
     "date_text": "Jan 17 (Sat)",
     "time": "7:15 PM",
     "away": "Quinte West Hawks",
@@ -2938,7 +2938,7 @@
     "game_date_iso": "2026-01-17"
   },
   {
-    "scraped_at": "2026-01-03T23:43:14+00:00",
+    "scraped_at": "2026-01-04T03:39:58+00:00",
     "date_text": "Jan 18 (Sun)",
     "time": "5:00 PM",
     "away": "Quinte West Hawks",
@@ -2964,7 +2964,7 @@
     "game_date_iso": "2026-01-18"
   },
   {
-    "scraped_at": "2026-01-03T23:43:13+00:00",
+    "scraped_at": "2026-01-04T03:39:57+00:00",
     "date_text": "Jan 21 (Wed)",
     "time": "7:45 PM",
     "away": "Oshawa Generals",
@@ -2990,7 +2990,7 @@
     "game_date_iso": "2026-01-21"
   },
   {
-    "scraped_at": "2026-01-03T23:43:21+00:00",
+    "scraped_at": "2026-01-04T03:40:05+00:00",
     "date_text": "Jan 22 (Thu)",
     "time": "6:45 PM",
     "away": "Clarington Toros",
@@ -3016,7 +3016,7 @@
     "game_date_iso": "2026-01-22"
   },
   {
-    "scraped_at": "2026-01-03T23:43:24+00:00",
+    "scraped_at": "2026-01-04T03:40:08+00:00",
     "date_text": "Jan 24 (Sat)",
     "time": "3:00 PM",
     "away": "Ajax-Pickering Raiders",
@@ -3042,7 +3042,7 @@
     "game_date_iso": "2026-01-24"
   },
   {
-    "scraped_at": "2026-01-03T23:43:25+00:00",
+    "scraped_at": "2026-01-04T03:40:10+00:00",
     "date_text": "Jan 24 (Sat)",
     "time": "3:30 PM",
     "away": "Kingston Canadians",
@@ -3068,7 +3068,7 @@
     "game_date_iso": "2026-01-24"
   },
   {
-    "scraped_at": "2026-01-03T23:43:25+00:00",
+    "scraped_at": "2026-01-04T03:40:10+00:00",
     "date_text": "Jan 24 (Sat)",
     "time": "4:00 PM",
     "away": "Clarington Toros",
@@ -3094,7 +3094,7 @@
     "game_date_iso": "2026-01-24"
   },
   {
-    "scraped_at": "2026-01-03T23:43:18+00:00",
+    "scraped_at": "2026-01-04T03:40:02+00:00",
     "date_text": "Jan 24 (Sat)",
     "time": "7:15 PM",
     "away": "North Durham Warriors",
@@ -3120,7 +3120,7 @@
     "game_date_iso": "2026-01-24"
   },
   {
-    "scraped_at": "2026-01-03T23:43:15+00:00",
+    "scraped_at": "2026-01-04T03:39:59+00:00",
     "date_text": "Jan 25 (Sun)",
     "time": "6:00 PM",
     "away": "Belleville Bulls",
@@ -3146,7 +3146,7 @@
     "game_date_iso": "2026-01-25"
   },
   {
-    "scraped_at": "2026-01-03T23:43:19+00:00",
+    "scraped_at": "2026-01-04T03:40:04+00:00",
     "date_text": "Jan 25 (Sun)",
     "time": "6:15 PM",
     "away": "Whitby Wildcats",
@@ -3172,7 +3172,7 @@
     "game_date_iso": "2026-01-25"
   },
   {
-    "scraped_at": "2026-01-03T23:43:17+00:00",
+    "scraped_at": "2026-01-04T03:40:01+00:00",
     "date_text": "Jan 25 (Sun)",
     "time": "6:30 PM",
     "away": "Oshawa Generals",
@@ -3198,7 +3198,7 @@
     "game_date_iso": "2026-01-25"
   },
   {
-    "scraped_at": "2026-01-03T23:43:22+00:00",
+    "scraped_at": "2026-01-04T03:40:07+00:00",
     "date_text": "Jan 25 (Sun)",
     "time": "7:15 PM",
     "away": "Quinte West Hawks",
@@ -3224,7 +3224,7 @@
     "game_date_iso": "2026-01-25"
   },
   {
-    "scraped_at": "2026-01-03T23:43:26+00:00",
+    "scraped_at": "2026-01-04T03:40:11+00:00",
     "date_text": "Jan 28 (Wed)",
     "time": "7:30 PM",
     "away": "Ajax-Pickering Raiders",
@@ -3250,7 +3250,7 @@
     "game_date_iso": "2026-01-28"
   },
   {
-    "scraped_at": "2026-01-03T23:43:24+00:00",
+    "scraped_at": "2026-01-04T03:40:09+00:00",
     "date_text": "Jan 29 (Thu)",
     "time": "8:00 PM",
     "away": "Clarington Toros",
@@ -3276,7 +3276,7 @@
     "game_date_iso": "2026-01-29"
   },
   {
-    "scraped_at": "2026-01-03T23:43:23+00:00",
+    "scraped_at": "2026-01-04T03:40:08+00:00",
     "date_text": "Jan 30 (Fri)",
     "time": "7:00 PM",
     "away": "Belleville Bulls",
@@ -3302,7 +3302,7 @@
     "game_date_iso": "2026-01-30"
   },
   {
-    "scraped_at": "2026-01-03T23:43:20+00:00",
+    "scraped_at": "2026-01-04T03:40:04+00:00",
     "date_text": "Jan 31 (Sat)",
     "time": "3:30 PM",
     "away": "Belleville Bulls",
@@ -3328,7 +3328,7 @@
     "game_date_iso": "2026-01-31"
   },
   {
-    "scraped_at": "2026-01-03T23:43:23+00:00",
+    "scraped_at": "2026-01-04T03:40:08+00:00",
     "date_text": "Jan 31 (Sat)",
     "time": "3:45 PM",
     "away": "Oshawa Generals",
@@ -3354,7 +3354,7 @@
     "game_date_iso": "2026-01-31"
   },
   {
-    "scraped_at": "2026-01-03T23:43:16+00:00",
+    "scraped_at": "2026-01-04T03:40:00+00:00",
     "date_text": "Jan 31 (Sat)",
     "time": "6:00 PM",
     "away": "Whitby Wildcats",
