@@ -3,7 +3,7 @@ name: Update game-lookup data
 on:
   schedule:
     # Daily at 10:00 UTC (edit if you want)
-    - cron: "0 10 * * *"
+    - cron: "0 5,10,17,22 * * *"
   workflow_dispatch: {}
 
 permissions:
