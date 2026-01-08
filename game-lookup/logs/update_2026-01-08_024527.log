@@ -1,0 +1,53 @@
+== Game Lookup data update ==
+Project: /home/runner/work/lhlgamehub/lhlgamehub/game-lookup
+Season start year: 2025
+Exports: /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/exports
+Data: /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/data
+Log: /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/logs/update_2026-01-08_024527.log
+
+Scraping months (update-if-changed): 2025-10 2025-11 2025-12 2026-01 2026-02
+→ Scraping 2025-10 (temp) ...
+📄 Fetching schedule: https://lakeshorehockeyleague.net/Groups/1313/Schedule/?Month=10&Year=2025
+🔎 Found 31 game links. Fetching details...
+✅ Wrote 31 games to: /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/exports/2025-10.csv.tmp
+  ✓ No changes for 2025-10; keeping existing /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/exports/2025-10.csv
+
+→ Scraping 2025-11 (temp) ...
+📄 Fetching schedule: https://lakeshorehockeyleague.net/Groups/1313/Schedule/?Month=11&Year=2025
+🔎 Found 41 game links. Fetching details...
+✅ Wrote 41 games to: /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/exports/2025-11.csv.tmp
+  ✓ No changes for 2025-11; keeping existing /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/exports/2025-11.csv
+
+→ Scraping 2025-12 (temp) ...
+📄 Fetching schedule: https://lakeshorehockeyleague.net/Groups/1313/Schedule/?Month=12&Year=2025
+🔎 Found 23 game links. Fetching details...
+✅ Wrote 23 games to: /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/exports/2025-12.csv.tmp
+  ✓ No changes for 2025-12; keeping existing /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/exports/2025-12.csv
+
+→ Scraping 2026-01 (temp) ...
+📄 Fetching schedule: https://lakeshorehockeyleague.net/Groups/1313/Schedule/?Month=1&Year=2026
+🔎 Found 35 game links. Fetching details...
+✅ Wrote 35 games to: /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/exports/2026-01.csv.tmp
+  ★ Changes detected for 2026-01; updating /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/exports/2026-01.csv
+
+→ Scraping 2026-02 (temp) ...
+📄 Fetching schedule: https://lakeshorehockeyleague.net/Groups/1313/Schedule/?Month=2&Year=2026
+🔎 Found 5 game links. Fetching details...
+✅ Wrote 5 games to: /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/exports/2026-02.csv.tmp
+  ✓ No changes for 2026-02; keeping existing /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/exports/2026-02.csv
+
+Scraping standings table ...
+Wrote 10 standings rows -> /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/exports/2025-2026_u14aa_standings.csv.tmp
+  ★ Standings changed; updating /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/exports/2025-2026_u14aa_standings.csv
+
+Combining/deduping/sorting into data/combined.csv ...
+✅ Combined 6 file(s)
+✅ Wrote 135 deduped rows to: /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/data/combined.csv
+
+Converting to data/games.json ...
+📄 Reading: /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/data/combined.csv
+✅ Wrote 135 rows to: /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/data/games.json
+
+✅ Done. Updated files:
+-rw-r--r-- 1 runner runner 29797 Jan  8 02:46 /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/data/combined.csv
+-rw-r--r-- 1 runner runner 82975 Jan  8 02:46 /home/runner/work/lhlgamehub/lhlgamehub/game-lookup/data/games.json
