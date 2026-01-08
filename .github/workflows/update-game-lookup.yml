@@ -31,20 +31,9 @@ jobs:
       - name: Install Python deps
         run: pip install -r requirements.txt
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Install Node deps (game-lookup)
+      - name: Run data update
         working-directory: game-lookup
-        run: npm ci
-
-      - name: Run update script (Oct 2025 -> Feb 2026)
-        working-directory: game-lookup
-        run: |
-          chmod +x ./scripts/update_data.sh
-          ./scripts/update_data.sh
+        run: python3 lhl_data.py update
 
       - name: Commit & push if changed
         run: |
