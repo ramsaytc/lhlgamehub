@@ -1,71 +1,36 @@
 scraped_at,date_text,time,away,away_score,home,home_score,game_code,venue,game_url
-2026-01-08T03:15:32+00:00,Jan 08 (Thu),7:15 PM,Clarington Toros,,Ajax-Pickering Raiders,,U14AA-095,Don Beer Arena (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224643/
-2026-01-08T03:15:32+00:00,Jan 21 (Wed),7:45 PM,Oshawa Generals,,Ajax-Pickering Raiders,,U14AA-035,Don Beer Arena (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224647/
-2026-01-08T03:15:33+00:00,Jan 04 (Sun),5:00 PM,Peterborough Petes,4,Ajax-Pickering Raiders,8,U14AA-027,Pickering Recreation Complex (Delaney),https://lakeshorehockeyleague.net/Groups/1313/Games/2224648/
-2026-01-08T03:15:34+00:00,Jan 11 (Sun),3:00 PM,Quinte West Hawks,,Ajax-Pickering Raiders,,U14AA-117,Ajax Community Centre (Pad 4),https://lakeshorehockeyleague.net/Groups/1313/Games/2224649/
-2026-01-08T03:15:34+00:00,Jan 18 (Sun),5:00 PM,Quinte West Hawks,,Belleville Bulls,,U14AA-075,Quinte Sports & Wellness Centre (Wally Dever Arena),https://lakeshorehockeyleague.net/Groups/1313/Games/2224658/
-2026-01-08T03:15:34+00:00,Jan 10 (Sat),4:15 PM,Ajax-Pickering Raiders,,Kingston Canadians,,U14AA-040,Centre 70 Arena,https://lakeshorehockeyleague.net/Groups/1313/Games/2224669/
-2026-01-08T03:15:35+00:00,Jan 25 (Sun),6:00 PM,Belleville Bulls,,Kingston Canadians,,U14AA-104,Cataraqui Community Centre (Cataraqui Pad),https://lakeshorehockeyleague.net/Groups/1313/Games/2224670/
-2026-01-08T03:15:35+00:00,Jan 04 (Sun),5:00 PM,North Durham Warriors,3,Kingston Canadians,3,U14AA-017,Slush Puppy Place,https://lakeshorehockeyleague.net/Groups/1313/Games/2224672/
-2026-01-08T03:15:35+00:00,Jan 31 (Sat),6:00 PM,Whitby Wildcats,,Kingston Canadians,,U14AA-135,INVISTA Centre (CUPE),https://lakeshorehockeyleague.net/Groups/1313/Games/2224677/
-2026-01-08T03:15:36+00:00,Jan 11 (Sun),6:30 PM,Kingston Canadians,,North Durham Warriors,,U14AA-006,Scugog Arena (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224681/
-2026-01-08T03:15:36+00:00,Jan 03 (Sat),6:30 PM,Northumberland Nighthawks,0,North Durham Warriors,1,U14AA-021,Scugog Arena (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224682/
-2026-01-08T03:15:37+00:00,Jan 25 (Sun),6:30 PM,Oshawa Generals,,North Durham Warriors,,U14AA-045,Scugog Arena (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224683/
-2026-01-08T03:15:37+00:00,Jan 11 (Sun),5:00 PM,Belleville Bulls,,Northumberland Nighthawks,,U14AA-132,Cobourg Community Centre (Bowl),https://lakeshorehockeyleague.net/Groups/1313/Games/2224688/
-2026-01-08T03:15:37+00:00,Jan 07 (Wed),7:15 PM,Peterborough Petes,3,Northumberland Nighthawks,1,U14AA-089,Cobourg Community Centre (Grace Bowen),https://lakeshorehockeyleague.net/Groups/1313/Games/2224693/
-2026-01-08T03:15:38+00:00,Jan 24 (Sat),7:15 PM,North Durham Warriors,,Oshawa Generals,,U14AA-007,Delpark Homes Centre (Pad 3),https://lakeshorehockeyleague.net/Groups/1313/Games/2224700/
-2026-01-08T03:15:38+00:00,Jan 17 (Sat),7:15 PM,Quinte West Hawks,,Oshawa Generals,,U14AA-115,Delpark Homes Centre (Pad 3),https://lakeshorehockeyleague.net/Groups/1313/Games/2224703/
-2026-01-08T03:15:39+00:00,Jan 03 (Sat),7:00 PM,Whitby Wildcats,1,Oshawa Generals,2,U14AA-078,Delpark Homes Centre (Pad 2),https://lakeshorehockeyleague.net/Groups/1313/Games/2224704/
-2026-01-08T03:15:39+00:00,Jan 25 (Sun),6:15 PM,Whitby Wildcats,,Peterborough Petes,,U14AA-098,Healthy Planet Arena (South Pad),https://lakeshorehockeyleague.net/Groups/1313/Games/2224713/
-2026-01-08T03:15:39+00:00,Jan 31 (Sat),3:30 PM,Belleville Bulls,,Quinte West Hawks,,U14AA-105,Duncan McDonald Memorial Gardens (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224715/
-2026-01-08T03:15:40+00:00,Jan 09 (Fri),6:30 PM,Northumberland Nighthawks,,Quinte West Hawks,,U14AA-022,McMullen Recreation Centre,https://lakeshorehockeyleague.net/Groups/1313/Games/2224719/
-2026-01-08T03:15:40+00:00,Jan 10 (Sat),6:00 PM,Peterborough Petes,,Quinte West Hawks,,U14AA-129,Duncan McDonald Memorial Gardens (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224721/
-2026-01-08T03:15:41+00:00,Jan 22 (Thu),6:45 PM,Clarington Toros,,Whitby Wildcats,,U14AA-101,McKinney Centre (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224725/
-2026-01-08T03:15:41+00:00,Jan 11 (Sun),2:15 PM,Peterborough Petes,,Whitby Wildcats,,U14AA-047,Iroquois Park Sports Centre (Pad 4),https://lakeshorehockeyleague.net/Groups/1313/Games/2224730/
-2026-01-08T03:15:41+00:00,Jan 10 (Sat),7:00 PM,North Durham Warriors,,Clarington Toros,,U14AA-060,Garnet B Rickard Recreation Complex (Toyota),https://lakeshorehockeyleague.net/Groups/1313/Games/2224878/
-2026-01-08T03:15:42+00:00,Jan 25 (Sun),7:15 PM,Quinte West Hawks,,Clarington Toros,,U14AA-112,Darlington Sports Centre,https://lakeshorehockeyleague.net/Groups/1313/Games/2224880/
-2026-01-08T03:15:42+00:00,Jan 03 (Sat),4:00 PM,Clarington Toros,0,Kingston Canadians,4,U14AA-128,INVISTA Centre (CUPE),https://lakeshorehockeyleague.net/Groups/1313/Games/2224882/
-2026-01-08T03:15:43+00:00,Jan 30 (Fri),7:00 PM,Belleville Bulls,,North Durham Warriors,,U14AA-074,Uxbridge Community Centre (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224886/
-2026-01-08T03:15:43+00:00,Jan 31 (Sat),3:45 PM,Oshawa Generals,,North Durham Warriors,,U14AA-131,Uxbridge Community Centre (Pad 2),https://lakeshorehockeyleague.net/Groups/1313/Games/2224888/
-2026-01-08T03:15:43+00:00,Jan 24 (Sat),3:00 PM,Ajax-Pickering Raiders,,Northumberland Nighthawks,,U14AA-072,Jack Burger Sports Complex,https://lakeshorehockeyleague.net/Groups/1313/Games/2224890/
-2026-01-08T03:15:44+00:00,Jan 29 (Thu),8:00 PM,Clarington Toros,,Northumberland Nighthawks,,U14AA-134,Cobourg Community Centre (Bowl),https://lakeshorehockeyleague.net/Groups/1313/Games/2224891/
-2026-01-08T03:15:44+00:00,Jan 04 (Sun),4:30 PM,Whitby Wildcats,5,Northumberland Nighthawks,3,U14AA-123,Cobourg Community Centre (Bowl),https://lakeshorehockeyleague.net/Groups/1313/Games/2224894/
-2026-01-08T03:15:45+00:00,Jan 24 (Sat),4:00 PM,Clarington Toros,,Peterborough Petes,,U14AA-107,Miskin Law Community Center (South Pad),https://lakeshorehockeyleague.net/Groups/1313/Games/2224900/
-2026-01-08T03:15:45+00:00,Jan 24 (Sat),3:30 PM,Kingston Canadians,,Quinte West Hawks,,U14AA-018,Duncan McDonald Memorial Gardens (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224905/
-2026-01-08T03:15:45+00:00,Jan 13 (Tue),7:15 PM,Northumberland Nighthawks,,Quinte West Hawks,,U14AA-010,McMullen Recreation Centre,https://lakeshorehockeyleague.net/Groups/1313/Games/2224906/
-2026-01-08T03:15:46+00:00,Jan 28 (Wed),7:30 PM,Ajax-Pickering Raiders,,Whitby Wildcats,,U14AA-116,Iroquois Park Sports Centre (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224908/
-2026-01-08T02:46:06+00:00,Jan 08 (Thu),7:15 PM,Clarington Toros,,Ajax-Pickering Raiders,,U14AA-095,Don Beer Arena (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224643/
-2026-01-08T02:46:06+00:00,Jan 21 (Wed),7:45 PM,Oshawa Generals,,Ajax-Pickering Raiders,,U14AA-035,Don Beer Arena (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224647/
-2026-01-08T02:46:07+00:00,Jan 04 (Sun),5:00 PM,Peterborough Petes,4,Ajax-Pickering Raiders,8,U14AA-027,Pickering Recreation Complex (Delaney),https://lakeshorehockeyleague.net/Groups/1313/Games/2224648/
-2026-01-08T02:46:07+00:00,Jan 11 (Sun),3:00 PM,Quinte West Hawks,,Ajax-Pickering Raiders,,U14AA-117,Ajax Community Centre (Pad 4),https://lakeshorehockeyleague.net/Groups/1313/Games/2224649/
-2026-01-08T02:46:08+00:00,Jan 18 (Sun),5:00 PM,Quinte West Hawks,,Belleville Bulls,,U14AA-075,Quinte Sports & Wellness Centre (Wally Dever Arena),https://lakeshorehockeyleague.net/Groups/1313/Games/2224658/
-2026-01-08T02:46:08+00:00,Jan 10 (Sat),4:15 PM,Ajax-Pickering Raiders,,Kingston Canadians,,U14AA-040,Centre 70 Arena,https://lakeshorehockeyleague.net/Groups/1313/Games/2224669/
-2026-01-08T02:46:08+00:00,Jan 25 (Sun),6:00 PM,Belleville Bulls,,Kingston Canadians,,U14AA-104,Cataraqui Community Centre (Cataraqui Pad),https://lakeshorehockeyleague.net/Groups/1313/Games/2224670/
-2026-01-08T02:46:09+00:00,Jan 04 (Sun),5:00 PM,North Durham Warriors,3,Kingston Canadians,3,U14AA-017,Slush Puppy Place,https://lakeshorehockeyleague.net/Groups/1313/Games/2224672/
-2026-01-08T02:46:09+00:00,Jan 31 (Sat),6:00 PM,Whitby Wildcats,,Kingston Canadians,,U14AA-135,INVISTA Centre (CUPE),https://lakeshorehockeyleague.net/Groups/1313/Games/2224677/
-2026-01-08T02:46:10+00:00,Jan 11 (Sun),6:30 PM,Kingston Canadians,,North Durham Warriors,,U14AA-006,Scugog Arena (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224681/
-2026-01-08T02:46:10+00:00,Jan 03 (Sat),6:30 PM,Northumberland Nighthawks,0,North Durham Warriors,1,U14AA-021,Scugog Arena (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224682/
-2026-01-08T02:46:10+00:00,Jan 25 (Sun),6:30 PM,Oshawa Generals,,North Durham Warriors,,U14AA-045,Scugog Arena (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224683/
-2026-01-08T02:46:11+00:00,Jan 11 (Sun),5:00 PM,Belleville Bulls,,Northumberland Nighthawks,,U14AA-132,Cobourg Community Centre (Bowl),https://lakeshorehockeyleague.net/Groups/1313/Games/2224688/
-2026-01-08T02:46:11+00:00,Jan 07 (Wed),7:15 PM,Peterborough Petes,3,Northumberland Nighthawks,1,U14AA-089,Cobourg Community Centre (Grace Bowen),https://lakeshorehockeyleague.net/Groups/1313/Games/2224693/
-2026-01-08T02:46:12+00:00,Jan 24 (Sat),7:15 PM,North Durham Warriors,,Oshawa Generals,,U14AA-007,Delpark Homes Centre (Pad 3),https://lakeshorehockeyleague.net/Groups/1313/Games/2224700/
-2026-01-08T02:46:12+00:00,Jan 17 (Sat),7:15 PM,Quinte West Hawks,,Oshawa Generals,,U14AA-115,Delpark Homes Centre (Pad 3),https://lakeshorehockeyleague.net/Groups/1313/Games/2224703/
-2026-01-08T02:46:12+00:00,Jan 03 (Sat),7:00 PM,Whitby Wildcats,1,Oshawa Generals,2,U14AA-078,Delpark Homes Centre (Pad 2),https://lakeshorehockeyleague.net/Groups/1313/Games/2224704/
-2026-01-08T02:46:13+00:00,Jan 25 (Sun),6:15 PM,Whitby Wildcats,,Peterborough Petes,,U14AA-098,Healthy Planet Arena (South Pad),https://lakeshorehockeyleague.net/Groups/1313/Games/2224713/
-2026-01-08T02:46:13+00:00,Jan 31 (Sat),3:30 PM,Belleville Bulls,,Quinte West Hawks,,U14AA-105,Duncan McDonald Memorial Gardens (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224715/
-2026-01-08T02:46:14+00:00,Jan 09 (Fri),6:30 PM,Northumberland Nighthawks,,Quinte West Hawks,,U14AA-022,McMullen Recreation Centre,https://lakeshorehockeyleague.net/Groups/1313/Games/2224719/
-2026-01-08T02:46:14+00:00,Jan 10 (Sat),6:00 PM,Peterborough Petes,,Quinte West Hawks,,U14AA-129,Duncan McDonald Memorial Gardens (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224721/
-2026-01-08T02:46:14+00:00,Jan 22 (Thu),6:45 PM,Clarington Toros,,Whitby Wildcats,,U14AA-101,McKinney Centre (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224725/
-2026-01-08T02:46:15+00:00,Jan 11 (Sun),2:15 PM,Peterborough Petes,,Whitby Wildcats,,U14AA-047,Iroquois Park Sports Centre (Pad 4),https://lakeshorehockeyleague.net/Groups/1313/Games/2224730/
-2026-01-08T02:46:15+00:00,Jan 10 (Sat),7:00 PM,North Durham Warriors,,Clarington Toros,,U14AA-060,Garnet B Rickard Recreation Complex (Toyota),https://lakeshorehockeyleague.net/Groups/1313/Games/2224878/
-2026-01-08T02:46:16+00:00,Jan 25 (Sun),7:15 PM,Quinte West Hawks,,Clarington Toros,,U14AA-112,Darlington Sports Centre,https://lakeshorehockeyleague.net/Groups/1313/Games/2224880/
-2026-01-08T02:46:16+00:00,Jan 03 (Sat),4:00 PM,Clarington Toros,0,Kingston Canadians,4,U14AA-128,INVISTA Centre (CUPE),https://lakeshorehockeyleague.net/Groups/1313/Games/2224882/
-2026-01-08T02:46:16+00:00,Jan 30 (Fri),7:00 PM,Belleville Bulls,,North Durham Warriors,,U14AA-074,Uxbridge Community Centre (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224886/
-2026-01-08T02:46:17+00:00,Jan 31 (Sat),3:45 PM,Oshawa Generals,,North Durham Warriors,,U14AA-131,Uxbridge Community Centre (Pad 2),https://lakeshorehockeyleague.net/Groups/1313/Games/2224888/
-2026-01-08T02:46:17+00:00,Jan 24 (Sat),3:00 PM,Ajax-Pickering Raiders,,Northumberland Nighthawks,,U14AA-072,Jack Burger Sports Complex,https://lakeshorehockeyleague.net/Groups/1313/Games/2224890/
-2026-01-08T02:46:17+00:00,Jan 29 (Thu),8:00 PM,Clarington Toros,,Northumberland Nighthawks,,U14AA-134,Cobourg Community Centre (Bowl),https://lakeshorehockeyleague.net/Groups/1313/Games/2224891/
-2026-01-08T02:46:18+00:00,Jan 04 (Sun),4:30 PM,Whitby Wildcats,5,Northumberland Nighthawks,3,U14AA-123,Cobourg Community Centre (Bowl),https://lakeshorehockeyleague.net/Groups/1313/Games/2224894/
-2026-01-08T02:46:18+00:00,Jan 24 (Sat),4:00 PM,Clarington Toros,,Peterborough Petes,,U14AA-107,Miskin Law Community Center (South Pad),https://lakeshorehockeyleague.net/Groups/1313/Games/2224900/
-2026-01-08T02:46:19+00:00,Jan 24 (Sat),3:30 PM,Kingston Canadians,,Quinte West Hawks,,U14AA-018,Duncan McDonald Memorial Gardens (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224905/
-2026-01-08T02:46:19+00:00,Jan 13 (Tue),7:15 PM,Northumberland Nighthawks,,Quinte West Hawks,,U14AA-010,McMullen Recreation Centre,https://lakeshorehockeyleague.net/Groups/1313/Games/2224906/
-2026-01-08T02:46:19+00:00,Jan 28 (Wed),7:30 PM,Ajax-Pickering Raiders,,Whitby Wildcats,,U14AA-116,Iroquois Park Sports Centre (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224908/
+2026-01-08T03:51:50+00:00,Jan 08 (Thu),7:15 PM,Clarington Toros,,Ajax-Pickering Raiders,,U14AA-095,Don Beer Arena (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224643/
+2026-01-08T03:51:50+00:00,Jan 21 (Wed),7:45 PM,Oshawa Generals,,Ajax-Pickering Raiders,,U14AA-035,Don Beer Arena (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224647/
+2026-01-08T03:51:50+00:00,Jan 04 (Sun),5:00 PM,Peterborough Petes,4,Ajax-Pickering Raiders,8,U14AA-027,Pickering Recreation Complex (Delaney),https://lakeshorehockeyleague.net/Groups/1313/Games/2224648/
+2026-01-08T03:51:51+00:00,Jan 11 (Sun),3:00 PM,Quinte West Hawks,,Ajax-Pickering Raiders,,U14AA-117,Ajax Community Centre (Pad 4),https://lakeshorehockeyleague.net/Groups/1313/Games/2224649/
+2026-01-08T03:51:51+00:00,Jan 18 (Sun),5:00 PM,Quinte West Hawks,,Belleville Bulls,,U14AA-075,Quinte Sports & Wellness Centre (Wally Dever Arena),https://lakeshorehockeyleague.net/Groups/1313/Games/2224658/
+2026-01-08T03:51:52+00:00,Jan 10 (Sat),4:15 PM,Ajax-Pickering Raiders,,Kingston Canadians,,U14AA-040,Centre 70 Arena,https://lakeshorehockeyleague.net/Groups/1313/Games/2224669/
+2026-01-08T03:51:52+00:00,Jan 25 (Sun),6:00 PM,Belleville Bulls,,Kingston Canadians,,U14AA-104,Cataraqui Community Centre (Cataraqui Pad),https://lakeshorehockeyleague.net/Groups/1313/Games/2224670/
+2026-01-08T03:51:53+00:00,Jan 04 (Sun),5:00 PM,North Durham Warriors,3,Kingston Canadians,3,U14AA-017,Slush Puppy Place,https://lakeshorehockeyleague.net/Groups/1313/Games/2224672/
+2026-01-08T03:51:53+00:00,Jan 31 (Sat),6:00 PM,Whitby Wildcats,,Kingston Canadians,,U14AA-135,INVISTA Centre (CUPE),https://lakeshorehockeyleague.net/Groups/1313/Games/2224677/
+2026-01-08T03:51:53+00:00,Jan 11 (Sun),6:30 PM,Kingston Canadians,,North Durham Warriors,,U14AA-006,Scugog Arena (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224681/
+2026-01-08T03:51:54+00:00,Jan 03 (Sat),6:30 PM,Northumberland Nighthawks,0,North Durham Warriors,1,U14AA-021,Scugog Arena (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224682/
+2026-01-08T03:51:54+00:00,Jan 25 (Sun),6:30 PM,Oshawa Generals,,North Durham Warriors,,U14AA-045,Scugog Arena (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224683/
+2026-01-08T03:51:55+00:00,Jan 11 (Sun),5:00 PM,Belleville Bulls,,Northumberland Nighthawks,,U14AA-132,Cobourg Community Centre (Bowl),https://lakeshorehockeyleague.net/Groups/1313/Games/2224688/
+2026-01-08T03:51:55+00:00,Jan 07 (Wed),7:15 PM,Peterborough Petes,3,Northumberland Nighthawks,1,U14AA-089,Cobourg Community Centre (Grace Bowen),https://lakeshorehockeyleague.net/Groups/1313/Games/2224693/
+2026-01-08T03:51:55+00:00,Jan 24 (Sat),7:15 PM,North Durham Warriors,,Oshawa Generals,,U14AA-007,Delpark Homes Centre (Pad 3),https://lakeshorehockeyleague.net/Groups/1313/Games/2224700/
+2026-01-08T03:51:56+00:00,Jan 17 (Sat),7:15 PM,Quinte West Hawks,,Oshawa Generals,,U14AA-115,Delpark Homes Centre (Pad 3),https://lakeshorehockeyleague.net/Groups/1313/Games/2224703/
+2026-01-08T03:51:56+00:00,Jan 03 (Sat),7:00 PM,Whitby Wildcats,1,Oshawa Generals,2,U14AA-078,Delpark Homes Centre (Pad 2),https://lakeshorehockeyleague.net/Groups/1313/Games/2224704/
+2026-01-08T03:51:57+00:00,Jan 25 (Sun),6:15 PM,Whitby Wildcats,,Peterborough Petes,,U14AA-098,Healthy Planet Arena (South Pad),https://lakeshorehockeyleague.net/Groups/1313/Games/2224713/
+2026-01-08T03:51:57+00:00,Jan 31 (Sat),3:30 PM,Belleville Bulls,,Quinte West Hawks,,U14AA-105,Duncan McDonald Memorial Gardens (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224715/
+2026-01-08T03:51:58+00:00,Jan 09 (Fri),6:30 PM,Northumberland Nighthawks,,Quinte West Hawks,,U14AA-022,McMullen Recreation Centre,https://lakeshorehockeyleague.net/Groups/1313/Games/2224719/
+2026-01-08T03:51:58+00:00,Jan 10 (Sat),6:00 PM,Peterborough Petes,,Quinte West Hawks,,U14AA-129,Duncan McDonald Memorial Gardens (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224721/
+2026-01-08T03:51:58+00:00,Jan 22 (Thu),6:45 PM,Clarington Toros,,Whitby Wildcats,,U14AA-101,McKinney Centre (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224725/
+2026-01-08T03:51:59+00:00,Jan 11 (Sun),2:15 PM,Peterborough Petes,,Whitby Wildcats,,U14AA-047,Iroquois Park Sports Centre (Pad 4),https://lakeshorehockeyleague.net/Groups/1313/Games/2224730/
+2026-01-08T03:51:59+00:00,Jan 10 (Sat),7:00 PM,North Durham Warriors,,Clarington Toros,,U14AA-060,Garnet B Rickard Recreation Complex (Toyota),https://lakeshorehockeyleague.net/Groups/1313/Games/2224878/
+2026-01-08T03:52:00+00:00,Jan 25 (Sun),7:15 PM,Quinte West Hawks,,Clarington Toros,,U14AA-112,Darlington Sports Centre,https://lakeshorehockeyleague.net/Groups/1313/Games/2224880/
+2026-01-08T03:52:00+00:00,Jan 03 (Sat),4:00 PM,Clarington Toros,0,Kingston Canadians,4,U14AA-128,INVISTA Centre (CUPE),https://lakeshorehockeyleague.net/Groups/1313/Games/2224882/
+2026-01-08T03:52:01+00:00,Jan 30 (Fri),7:00 PM,Belleville Bulls,,North Durham Warriors,,U14AA-074,Uxbridge Community Centre (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224886/
+2026-01-08T03:52:01+00:00,Jan 31 (Sat),3:45 PM,Oshawa Generals,,North Durham Warriors,,U14AA-131,Uxbridge Community Centre (Pad 2),https://lakeshorehockeyleague.net/Groups/1313/Games/2224888/
+2026-01-08T03:52:01+00:00,Jan 24 (Sat),3:00 PM,Ajax-Pickering Raiders,,Northumberland Nighthawks,,U14AA-072,Jack Burger Sports Complex,https://lakeshorehockeyleague.net/Groups/1313/Games/2224890/
+2026-01-08T03:52:02+00:00,Jan 29 (Thu),8:00 PM,Clarington Toros,,Northumberland Nighthawks,,U14AA-134,Cobourg Community Centre (Bowl),https://lakeshorehockeyleague.net/Groups/1313/Games/2224891/
+2026-01-08T03:52:02+00:00,Jan 04 (Sun),4:30 PM,Whitby Wildcats,5,Northumberland Nighthawks,3,U14AA-123,Cobourg Community Centre (Bowl),https://lakeshorehockeyleague.net/Groups/1313/Games/2224894/
+2026-01-08T03:52:03+00:00,Jan 24 (Sat),4:00 PM,Clarington Toros,,Peterborough Petes,,U14AA-107,Miskin Law Community Center (South Pad),https://lakeshorehockeyleague.net/Groups/1313/Games/2224900/
+2026-01-08T03:52:03+00:00,Jan 24 (Sat),3:30 PM,Kingston Canadians,,Quinte West Hawks,,U14AA-018,Duncan McDonald Memorial Gardens (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224905/
+2026-01-08T03:52:03+00:00,Jan 13 (Tue),7:15 PM,Northumberland Nighthawks,,Quinte West Hawks,,U14AA-010,McMullen Recreation Centre,https://lakeshorehockeyleague.net/Groups/1313/Games/2224906/
+2026-01-08T03:52:04+00:00,Jan 28 (Wed),7:30 PM,Ajax-Pickering Raiders,,Whitby Wildcats,,U14AA-116,Iroquois Park Sports Centre (Pad 1),https://lakeshorehockeyleague.net/Groups/1313/Games/2224908/
