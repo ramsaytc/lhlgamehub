@@ -15,23 +15,28 @@ npm run dev          # Start dev server at http://localhost:3000
 npm run build        # Production build
 npm run lint         # ESLint check
 
-# Data pipeline - scrape, normalize, and regenerate data files
-./scripts/update_data.sh [months...]   # e.g., ./scripts/update_data.sh 2025-11 2025-12
-
-# Individual pipeline steps
-python3 month_to_scrape.py --month 11 --year 2025 --out exports/2025-11.csv
-python3 standings_to_scrape.py --url <url> exports/standings.csv
-python3 combine_dedupe.py exports/*.csv --out data/combined.csv --season-start-year 2025
-node scripts/csv_to_json.mjs   # Converts data/combined.csv to data/games.json
+# Data pipeline - unified CLI
+python3 lhl_data.py update                           # Full pipeline (current + next month)
+python3 lhl_data.py update --months 2025-11 2025-12  # Full pipeline with specific months
+python3 lhl_data.py scrape-games --months 2025-11    # Scrape games only
+python3 lhl_data.py scrape-standings                 # Scrape standings only
+python3 lhl_data.py combine                          # Combine CSVs and generate JSON
 ```
 
 ## Architecture
 
-### Data Pipeline (Python/Bash)
-1. **Scrapers** (`month_to_scrape.py`, `standings_to_scrape.py`) - fetch HTML from LHL website, parse game details and standings tables
-2. **Combiner** (`combine_dedupe.py`) - merges monthly CSVs, dedupes by `game_url`, adds `game_date_iso` field, handles season year rollover (Oct-Dec = start year, Jan-Mar = start year + 1)
-3. **Converter** (`scripts/csv_to_json.mjs`) - converts combined CSV to JSON for the web app
-4. **Orchestrator** (`scripts/update_data.sh`) - runs full pipeline with change detection to avoid unnecessary updates
+### Data Pipeline (`lhl_data.py`)
+Single Python CLI with subcommands:
+- **scrape-games** - async fetches game details from LHL website (5 concurrent requests)
+- **scrape-standings** - fetches standings table
+- **combine** - merges monthly CSVs, dedupes by `game_url`, adds `game_date_iso`, outputs JSON
+- **update** - runs full pipeline with change detection
+
+Features:
+- Async HTTP fetching with `aiohttp` for faster scraping
+- In-memory change detection (no temp files)
+- Automatic Toronto timezone handling for default months
+- Season year rollover (Oct-Dec = start year, Jan-Mar = start year + 1)
 
 ### Data Files
 - `exports/*.csv` - raw scraped data per month + standings
@@ -66,8 +71,9 @@ type Game = {
 
 ## Configuration
 
-Environment variables (set in `update_data.sh` or override when running):
-- `SEASON_START_YEAR` - e.g., 2025 for 2025-26 season
-- `STANDINGS_URL` - URL to scrape standings from
+CLI arguments for `lhl_data.py`:
+- `--months` - specific months to scrape (YYYY-MM format)
+- `--season-start-year` - e.g., 2025 for 2025-26 season (default: 2025)
+- `--standings-url` - URL to scrape standings from
 
-Python dependencies: `requests`, `beautifulsoup4`
+Python dependencies: `requests`, `beautifulsoup4`, `aiohttp`
