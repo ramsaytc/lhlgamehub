@@ -10,8 +10,21 @@ DATA_DIR="${PROJECT_ROOT}/data"
 # Default season start year for 2025-26 season
 SEASON_START_YEAR="${SEASON_START_YEAR:-2025}"
 
-# Months you care about (Oct 2025 -> Feb 2026)
-DEFAULT_MONTHS=("2025-10" "2025-11" "2025-12" "2026-01" "2026-02")
+# Default months: current month + next month (America/Toronto)
+DEFAULT_MONTHS=()
+read -r CURRENT_MONTH_TORONTO NEXT_MONTH_TORONTO < <(python3 - <<'PY'
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
+
+tz = ZoneInfo("America/Toronto")
+now = datetime.now(tz=tz)
+current_month = now.strftime("%Y-%m")
+first = now.replace(day=1)
+next_month = (first.replace(day=28) + timedelta(days=4)).replace(day=1)
+print(current_month, next_month.strftime("%Y-%m"))
+PY
+)
+DEFAULT_MONTHS=("${CURRENT_MONTH_TORONTO}" "${NEXT_MONTH_TORONTO}")
 
 # Standings scrape config
 STANDINGS_URL="${STANDINGS_URL:-https://lakeshorehockeyleague.net/Rounds/30700/2025-2026_U14_AA_Regular_Season/}"

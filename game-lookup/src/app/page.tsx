@@ -140,9 +140,9 @@ export default function Home() {
   const [teamRecords, setTeamRecords] = React.useState<Record<string, StandingRow>>({});
 
   const [view, setView] = React.useState<"all" | "played" | "upcoming">(
-    "upcoming"
+    "played"
   );
-  const [sortNewestFirst, setSortNewestFirst] = React.useState(false);
+  const [sortNewestFirst, setSortNewestFirst] = React.useState(true);
 
   const boxRef = React.useRef<HTMLDivElement | null>(null);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
@@ -267,7 +267,8 @@ export default function Home() {
   // When query is cleared, go back to default view
   React.useEffect(() => {
     if (!query.trim()) {
-      setView("upcoming");
+      setView("played");
+      setSortNewestFirst(true);
       setGames([]);
       lastSearchedRef.current = "";
     }
@@ -397,11 +398,18 @@ export default function Home() {
     : "oldest to newest";
   const toggleLabel = sortNewestFirst ? "Show oldest first" : "Show newest first";
 
-  function TeamLabelDesktop({ team }: { team?: string }) {
+  function TeamLabelDesktop({
+    team,
+    align = "start",
+  }: {
+    team?: string;
+    align?: "start" | "end";
+  }) {
     if (!team) return null;
     const logoSrc = TEAM_LOGOS[team];
+    const alignItems = align === "end" ? "items-end text-right" : "items-start text-left";
     return (
-      <div className="flex flex-col items-center gap-2 text-center">
+      <div className={`flex w-full flex-col ${alignItems} gap-3 px-2`}>
         {logoSrc ? (
           <div className="flex h-48 w-48 items-center justify-center">
             <Image
@@ -431,7 +439,7 @@ export default function Home() {
     return (
       <button
         type="button"
-        className="flex w-full max-w-[160px] flex-col items-center gap-1 border-0 bg-transparent p-0 text-center cursor-pointer hover:opacity-90"
+        className="flex w-full max-w-[160px] flex-col items-center gap-2 border-0 bg-transparent p-0 px-1 text-center cursor-pointer hover:opacity-90"
         onClick={(e) => {
           e.stopPropagation();
           chooseTeamFromCard(name);
@@ -681,9 +689,9 @@ export default function Home() {
                         <div className="min-w-0">
                           <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
                             <div className="hidden sm:flex flex-col gap-3">
-                              <div className="flex items-center justify-between gap-8">
-                                <div className="flex-1 flex justify-start">
-                                  <TeamLabelDesktop team={g.away} />
+                              <div className="grid items-center gap-8 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+                                <div className="flex justify-start px-2">
+                                  <TeamLabelDesktop team={g.away} align="start" />
                                 </div>
                                 <div className="flex-1 max-w-lg flex flex-col items-center justify-center gap-2 text-center">
                                   {played ? (
@@ -731,14 +739,14 @@ export default function Home() {
                                     </a>
                                   ) : null}
                                 </div>
-                                <div className="flex-1 flex justify-end">
-                                  <TeamLabelDesktop team={g.home} />
+                                <div className="flex justify-end px-2">
+                                  <TeamLabelDesktop team={g.home} align="end" />
                                 </div>
                               </div>
                             </div>
                             <div className="w-full sm:hidden">
                               <div className="flex items-center justify-between gap-4">
-                                <div className="flex flex-1 justify-start items-center">
+                                <div className="flex flex-1 justify-start items-center px-1">
                                   <TeamLabelMobile
                                     name={g.away}
                                     record={awayRecord ?? undefined}
@@ -778,7 +786,7 @@ export default function Home() {
                                     </span>
                                   ) : null}
                                 </div>
-                                <div className="flex flex-1 justify-end items-center">
+                                <div className="flex flex-1 justify-end items-center px-1">
                                   <TeamLabelMobile
                                     name={g.home}
                                     record={homeRecord ?? undefined}

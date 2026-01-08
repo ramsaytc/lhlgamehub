@@ -47,6 +47,17 @@ export default async function StandingsPage() {
     logoMap[row.team] = resolveLogoPath(slug);
   });
   const updatedAt = standings[0]?.scraped_at;
+  const updatedAtLabel = updatedAt
+    ? new Date(updatedAt).toLocaleString("en-CA", {
+        timeZone: "America/Toronto",
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "numeric",
+        minute: "2-digit",
+        timeZoneName: "short",
+      })
+    : "Awaiting data";
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-muted/40 to-background">
@@ -68,9 +79,7 @@ export default async function StandingsPage() {
               <Badge variant="secondary" className="text-xs uppercase tracking-widest">
                 Last updated
               </Badge>
-              <span>
-                {updatedAt ? new Date(updatedAt).toLocaleString() : "Awaiting data"}
-              </span>
+              <span>{updatedAtLabel}</span>
             </div>
           </CardContent>
         </Card>
