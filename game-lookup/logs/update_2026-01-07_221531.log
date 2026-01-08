@@ -1,0 +1,35 @@
+== Game Lookup data update ==
+Project: /Users/syd/Desktop/lhlgamehub/game-lookup
+Season start year: 2025
+Exports: /Users/syd/Desktop/lhlgamehub/game-lookup/exports
+Data: /Users/syd/Desktop/lhlgamehub/game-lookup/data
+Log: /Users/syd/Desktop/lhlgamehub/game-lookup/logs/update_2026-01-07_221531.log
+
+Scraping months (update-if-changed): 2026-01 2026-02
+→ Scraping 2026-01 (temp) ...
+📄 Fetching schedule: https://lakeshorehockeyleague.net/Groups/1313/Schedule/?Month=1&Year=2026
+🔎 Found 35 game links. Fetching details...
+✅ Wrote 35 games to: /Users/syd/Desktop/lhlgamehub/game-lookup/exports/2026-01.csv.tmp
+  ★ Changes detected for 2026-01; updating /Users/syd/Desktop/lhlgamehub/game-lookup/exports/2026-01.csv
+
+→ Scraping 2026-02 (temp) ...
+📄 Fetching schedule: https://lakeshorehockeyleague.net/Groups/1313/Schedule/?Month=2&Year=2026
+🔎 Found 5 game links. Fetching details...
+✅ Wrote 5 games to: /Users/syd/Desktop/lhlgamehub/game-lookup/exports/2026-02.csv.tmp
+  ✓ No changes for 2026-02; keeping existing /Users/syd/Desktop/lhlgamehub/game-lookup/exports/2026-02.csv
+
+Scraping standings table ...
+Wrote 10 standings rows -> /Users/syd/Desktop/lhlgamehub/game-lookup/exports/2025-2026_u14aa_standings.csv.tmp
+  ★ Standings changed; updating /Users/syd/Desktop/lhlgamehub/game-lookup/exports/2025-2026_u14aa_standings.csv
+
+Combining/deduping/sorting into data/combined.csv ...
+✅ Combined 6 file(s)
+✅ Wrote 135 deduped rows to: /Users/syd/Desktop/lhlgamehub/game-lookup/data/combined.csv
+
+Converting to data/games.json ...
+📄 Reading: /Users/syd/Desktop/lhlgamehub/game-lookup/data/combined.csv
+✅ Wrote 135 rows to: /Users/syd/Desktop/lhlgamehub/game-lookup/data/games.json
+
+✅ Done. Updated files:
+-rw-r--r--@ 1 syd  staff  29797 Jan  7 22:15 /Users/syd/Desktop/lhlgamehub/game-lookup/data/combined.csv
+-rw-r--r--@ 1 syd  staff  82975 Jan  7 22:15 /Users/syd/Desktop/lhlgamehub/game-lookup/data/games.json

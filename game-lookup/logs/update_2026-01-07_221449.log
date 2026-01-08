@@ -1,0 +1,9 @@
+== Game Lookup data update ==
+Project: /Users/syd/Desktop/lhlgamehub/game-lookup
+Season start year: 2025
+Exports: /Users/syd/Desktop/lhlgamehub/game-lookup/exports
+Data: /Users/syd/Desktop/lhlgamehub/game-lookup/data
+Log: /Users/syd/Desktop/lhlgamehub/game-lookup/logs/update_2026-01-07_221449.log
+
+Scraping months (update-if-changed): 2026-01 2026-02
+→ Scraping 2026-01 (temp) ...

@@ -21,6 +21,7 @@ import os
 import re
 import sys
 from typing import Dict, List
+from zoneinfo import ZoneInfo
 
 import requests
 from bs4 import BeautifulSoup
@@ -34,7 +35,11 @@ DEFAULT_OUTPUT = "exports/2025-2026_u14aa_standings.csv"
 
 
 def now_iso() -> str:
-    return dt.datetime.now().replace(microsecond=0).isoformat()
+    return (
+        dt.datetime.now(tz=ZoneInfo("America/Toronto"))
+        .replace(microsecond=0)
+        .isoformat()
+    )
 
 
 def fetch_html(url: str, timeout: int = 30) -> str:
