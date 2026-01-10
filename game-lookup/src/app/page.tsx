@@ -138,6 +138,7 @@ export default function Home() {
   const [games, setGames] = React.useState<Game[]>([]);
   const [loadingGames, setLoadingGames] = React.useState(false);
   const [teamRecords, setTeamRecords] = React.useState<Record<string, StandingRow>>({});
+  const [lastUpdated, setLastUpdated] = React.useState<string | null>(null);
 
   const [view, setView] = React.useState<"all" | "played" | "upcoming">(
     "played"
@@ -171,6 +172,9 @@ export default function Home() {
         const res = await fetch("/api/games?all=1");
         const data = await res.json();
         setAllGames(Array.isArray(data.games) ? data.games : []);
+        if (data.lastUpdated) {
+          setLastUpdated(data.lastUpdated);
+        }
       } catch {
         setAllGames([]);
       }
@@ -241,6 +245,23 @@ export default function Home() {
     if (!value) return "";
     const cleaned = value.replace(/\s*\([^)]*\)/g, "").trim();
     return cleaned || value;
+  }
+
+  function formatLastUpdated(isoString: string | null) {
+    if (!isoString) return null;
+    try {
+      const date = new Date(isoString);
+      return date.toLocaleString("en-US", {
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+        timeZoneName: "short",
+      });
+    } catch {
+      return null;
+    }
   }
 
   function formatLocalDateLabel(iso?: string) {
@@ -589,6 +610,11 @@ export default function Home() {
         </Card>
 
         <div className="mt-6">
+          {lastUpdated && (
+            <div className="mb-3 text-xs text-muted-foreground">
+              Data updated: {formatLastUpdated(lastUpdated)}
+            </div>
+          )}
           <div className="flex flex-wrap items-center justify-between gap-2">
             <Tabs
               value={view}

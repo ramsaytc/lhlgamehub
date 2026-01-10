@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Menu, Moon, Sun } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -26,6 +27,7 @@ function applyTheme(theme: "light" | "dark") {
 
 export function HeaderBar() {
   const [theme, setTheme] = React.useState<"light" | "dark">("light");
+  const pathname = usePathname();
 
   React.useEffect(() => {
     const stored = window.localStorage.getItem("theme");
@@ -61,10 +63,20 @@ export function HeaderBar() {
             <span className="inline sm:hidden">LHL • U14 AA</span>
           </Link>
           <nav className="hidden md:flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
-            <Link className="transition-colors hover:text-foreground" href="/">
+            <Link
+              className={`transition-colors hover:text-foreground ${
+                pathname === "/" ? "text-foreground border-b border-foreground" : ""
+              }`}
+              href="/"
+            >
               GAME SCORES
             </Link>
-            <Link className="transition-colors hover:text-foreground" href="/standings">
+            <Link
+              className={`transition-colors hover:text-foreground ${
+                pathname === "/standings" ? "text-foreground border-b border-foreground" : ""
+              }`}
+              href="/standings"
+            >
               STANDINGS
             </Link>
           </nav>
@@ -93,7 +105,9 @@ export function HeaderBar() {
               <DropdownMenuItem asChild>
                 <Link
                   href="/"
-                  className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground"
+                  className={`text-[11px] font-semibold uppercase tracking-[0.08em] ${
+                    pathname === "/" ? "text-foreground" : "text-muted-foreground"
+                  }`}
                 >
                   Game Scores
                 </Link>
@@ -101,7 +115,9 @@ export function HeaderBar() {
               <DropdownMenuItem asChild>
                 <Link
                   href="/standings"
-                  className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground"
+                  className={`text-[11px] font-semibold uppercase tracking-[0.08em] ${
+                    pathname === "/standings" ? "text-foreground" : "text-muted-foreground"
+                  }`}
                 >
                   Standings
                 </Link>
