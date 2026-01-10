@@ -13,6 +13,7 @@ type Game = {
   home_score?: string;
   venue?: string;
   game_code?: string;
+  scraped_at?: string;
 };
 
 function safeReadGames(): Game[] {
@@ -64,5 +65,11 @@ export async function GET(req: Request) {
 
   sortGamesAsc(games);
 
-  return NextResponse.json({ games });
+  // Find the most recent scraped_at timestamp
+  const lastUpdated = games.reduce((latest, g) => {
+    if (!g.scraped_at) return latest;
+    return !latest || g.scraped_at > latest ? g.scraped_at : latest;
+  }, "" as string);
+
+  return NextResponse.json({ games, lastUpdated: lastUpdated || null });
 }
